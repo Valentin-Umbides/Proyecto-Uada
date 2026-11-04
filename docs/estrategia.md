@@ -25,6 +25,9 @@ llegada.
 
 ## 2. Decisiones tomadas ante ambigüedades de la consigna
 
+Según `docs/PUNTEO.md`, la cátedra confirmó: el mapa es dirigido (D6), "Aula 633" es el Aula 348
+(D2), la batería tiene tope de 100 (D4) y las 3 rutas tienen que pasar por lugares distintos (D7).
+
 | # | Ambigüedad | Decisión implementada |
 | --- | --- | --- |
 | D1 | Consumo al saltar o ir patas para arriba | Relativo a caminar el mismo tramo: `consumo = segundosMapa / 60 × factor` (C = 1; S = 2,2; P = 0,45) — `Modo.consumo` |

@@ -122,23 +122,23 @@ Si se necesitan getters (`getMejorParcial`, estadísticas), se agregan sin cambi
 
 ### Iteración 5 — `features/informe`
 
-Crear `docs/informe.md` (después se exporta a PDF para el mail) con estas secciones:
+Valentin ya subió `docs/INFORME.md` y `docs/PUNTEO.md`, que cubren todos los entregables. Esta
+iteración **revisa y completa** ese informe; no escribe uno nuevo. Después se exporta a PDF para
+el mail.
 
-1. Estrategia de backtracking: las secciones 1, 2 y 5 de la estrategia.
-2. Pseudocódigo: la sección 4.
-3. Complejidad teórica: la sección 8, con el método de sustracción paso a paso.
-4. Implementación: una línea por clase.
-5. Log: extracto de `logs/log_mapa_grande.txt` con una poda por ventana en el Patio (t = 150), otra en el Molinete (t = 200), una SOLUCIÓN y las estadísticas.
-6. Complejidad práctica: el gráfico y su interpretación (en escala logarítmica la curva es casi recta, o sea exponencial).
-7. Resultados de los 3 mapas.
-8. Análisis comparativo:
-   - Greedy falla con las ventanas: con el movimiento más rápido llega al Patio a 150 s y al Molinete a 200 s.
-   - Dijkstra y Floyd no manejan los obligatorios, la regla de pasar una sola vez ni el tiempo.
-   - Programación Dinámica tipo Held-Karp necesitaría tiempo y batería en el estado.
-   - En Divide y Conquista los subproblemas no son independientes.
-9. Aplicaciones reales: ventajas y limitaciones.
+1. Consultar al grupo si el resultado principal tiene que ser `mapa_grande.txt` (el de la
+   cátedra) en lugar del mapa propio de 13 lugares. Si es así, pasar la sección "Prueba con los
+   archivos de la cátedra" al frente.
+2. Log: agregar un extracto de `logs/log_mapa_grande.txt` con la poda por ventana en el Patio
+   (t = 150) y en el Molinete (t = 200). Muestra por qué ir siempre lo más rápido no sirve.
+3. Análisis comparativo: sumar el contraejemplo de Greedy en el mapa de la cátedra (con el
+   movimiento más rápido llega al Patio a 150 s y al Molinete a 200 s, los dos cerrados).
+4. Agregar una sección de verificación: los tests automáticos (cantidad y qué cubren), y que con
+   cota y sin cota se obtiene el mismo top-3.
+5. Actualizar las instrucciones de compilación a Maven.
 
-**Verificación**: todos los números del informe tienen que coincidir con los que da el programa.
+**Verificación**: todos los números del informe tienen que coincidir con los que da el programa
+y con la sección 9 de la estrategia.
 
 ## Cronograma (entrega 11/11)
 
