@@ -9,8 +9,8 @@ import java.nio.charset.StandardCharsets;
  * Ejecuta la misión y guarda el log de exploración.
  *
  * Uso:
- *   java -cp out uada.Main mapas/mapa_uade.txt        -> mapa leído de archivo (el que den los profes)
- *   java -cp out uada.Main mapas/mapa_uade.txt sincota -> mismo, sin poda por cota (para verificar)
+ *   java -cp out uada.Main mapas/mapa_grande.txt      -> mapa leído de archivo (el que den los profes)
+ *   java -cp out uada.Main mapas/mapa_grande.txt sincota -> mismo, sin poda por cota (para verificar)
  *   java -cp out uada.Main mapa.txt nodirigido         -> fuerza grafo no dirigido (o "dirigido")
  *   java -cp out uada.Main base | imposible | chico    -> mapas de ejemplo cargados en código
  */
@@ -52,7 +52,8 @@ public class Main {
             };
             nombre = entrada;
         }
-        String archivoLog = "log_" + nombre + (usarCota ? "" : "_sincota") + ".txt";
+        new java.io.File("logs").mkdirs();
+        String archivoLog = "logs/log_" + nombre + (usarCota ? "" : "_sincota") + ".txt";
 
         try (PrintWriter log = new PrintWriter(new FileWriter(archivoLog, StandardCharsets.UTF_8))) {
             log.println("LOG DE EXPLORACIÓN - mapa '" + nombre + "'" + (usarCota ? "" : " (sin cota)")

@@ -73952,5 +73952,5 @@ Ruta #3  -  Aula 348 > Pasillo P3 > Biblioteca > Aula 210 > Auditorio > Aula 118
   11  Aula 402        Aula 348        Caminando               91.77         -      417.5 s
   Tiempo total: 417.5 s (6 min 58 s)
 
- Tiempo de ejecución: 473.06 ms
+ Tiempo de ejecución: 495.72 ms
 

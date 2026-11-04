@@ -255,5 +255,5 @@ Ruta #3  -  A348 > PASILLO3 > A613 > STARBUCKS > PATIO > A348
   5   PATIO     A348      Caminando                2.00         -     3450.0 s
   Tiempo total: 3450.0 s (57 min 30 s)
 
- Tiempo de ejecución: 34.87 ms
+ Tiempo de ejecución: 33.78 ms
 

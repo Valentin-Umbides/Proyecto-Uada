@@ -1,6 +1,6 @@
 out/
 *.class
 bench_out.txt
-log_*.txt
+logs/*
 !logs/log_chico.txt
 !logs/log_mapa_grande.txt
