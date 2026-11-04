@@ -1,0 +1,11 @@
+# El atajo por X (2 s) pasa por una zona prohibida: hay que ir por B (60 s en total)
+LUGAR;Aula 348;348;0;0;0;0
+LUGAR;X;0;5;5;0;1
+LUGAR;A;0;10;0;1;0
+LUGAR;B;0;5;-5;0;0
+ARISTA;Aula 348;X;1;C
+ARISTA;X;A;1;C
+ARISTA;Aula 348;B;20;C
+ARISTA;B;A;20;C
+ARISTA;A;Aula 348;20;C
+INICIO;Aula 348
