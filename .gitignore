@@ -4,3 +4,4 @@ bench_out.txt
 logs/*
 !logs/log_chico.txt
 !logs/log_mapa_grande.txt
+target/
