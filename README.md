@@ -40,3 +40,7 @@ Las líneas con # son comentarios.
 Todos los logs se guardan en `logs/` (cada ejecución pisa el log anterior del mismo mapa).
 En el repo están el del mapa chico (para mostrar en la defensa) y el de `mapa_grande.txt`.
 Los demás pesan cientos de MB, así que no se suben: se regeneran corriendo el programa.
+
+## Documentación
+- [`docs/INFORME.md`](docs/INFORME.md): informe del TP (estrategia, pseudocódigo, complejidad, resultados, comparativo, conclusiones).
+- [`docs/PUNTEO.md`](docs/PUNTEO.md): resumen y explicación para el grupo, con preguntas probables de la defensa.
