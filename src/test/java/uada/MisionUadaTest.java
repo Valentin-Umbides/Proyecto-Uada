@@ -93,6 +93,19 @@ class MisionUadaTest {
         assertEquals(0.0, r.pasos.get(r.pasos.size() - 1).bateriaRestante, EPS);
     }
 
+    @Test
+    void desempataPorMasBateriaYDespuesPorMenosLugares() throws IOException {
+        for (boolean cota : new boolean[]{true, false}) {
+            MisionUada u = resolver(MINI + "mini_desempate.txt", null, cota);
+            assertEquals(List.of("Aula 348 > A > O > Aula 348",          // 99,67 de batería
+                                 "Aula 348 > B > O > Aula 348",          // 99,50 y 3 tramos
+                                 "Aula 348 > C > D > O > Aula 348"),     // 99,50 y 4 tramos
+                    secuencias(u.getMejores()));
+            for (Ruta r : u.getMejores()) assertEquals(30.0, r.tiempoTotal, EPS);
+            assertEquals(100 - 20 / 60.0, u.getMejores().get(0).bateriaFinal(), EPS);
+        }
+    }
+
     // ---------------------------------------------------------------- mapas de la cátedra
 
     @Test
@@ -109,6 +122,9 @@ class MisionUadaTest {
                     .filter(m -> m.destino.getCodigo().equals("Molinete Lima 3")).findFirst().orElseThrow();
             assertEquals(247.5, aMolinete.tiempoAcumulado, EPS);
         }
+        // empatan en tiempo: el top-3 queda ordenado por batería final, de mayor a menor
+        for (int i = 1; i < mejores.size(); i++)
+            assertTrue(mejores.get(i - 1).bateriaFinal() >= mejores.get(i).bateriaFinal() - EPS);
     }
 
     @Test

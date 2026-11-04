@@ -1,0 +1,19 @@
+# Tres rutas de 30 s (solo caminando) hacia el obligatorio O, declaradas en orden inverso al esperado:
+#   348 > C > D > O > 348   batería final 99,50  (4 tramos)
+#   348 > B > O > 348       batería final 99,50  (3 tramos)  -> gana a C-D por pasar por menos lugares
+#   348 > A > O > 348       batería final 99,67  (A es aula y recarga) -> gana por batería
+LUGAR;Aula 348;348;0;0;0;0
+LUGAR;C;0;5;5;0;0
+LUGAR;D;0;10;5;0;0
+LUGAR;B;0;5;0;0;0
+LUGAR;A;999;5;-5;0;0
+LUGAR;O;0;10;0;1;0
+ARISTA;Aula 348;C;5;C
+ARISTA;C;D;5;C
+ARISTA;D;O;10;C
+ARISTA;Aula 348;B;10;C
+ARISTA;B;O;10;C
+ARISTA;Aula 348;A;10;C
+ARISTA;A;O;10;C
+ARISTA;O;Aula 348;10;C
+INICIO;Aula 348

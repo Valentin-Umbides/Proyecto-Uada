@@ -30,6 +30,11 @@ public class Ruta {
         return sb.toString();
     }
 
+    /** Batería con la que termina la ruta (100 si no tiene movimientos). */
+    public double bateriaFinal() {
+        return pasos.isEmpty() ? MisionUada.BATERIA_INICIAL : pasos.get(pasos.size() - 1).bateriaRestante;
+    }
+
     public Estacion ultima() {
         return pasos.isEmpty() ? null : pasos.get(pasos.size() - 1).destino;
     }

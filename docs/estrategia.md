@@ -36,7 +36,7 @@ Según `docs/PUNTEO.md`, la cátedra confirmó: el mapa es dirigido (D6), "Aula 
 | D4 | Llegar y recargar | Se controla la batería al llegar y recién después se recarga, con tope de 100. El 348 no recarga |
 | D5 | Ventanas | Se evalúan con el tiempo de llegada. El intervalo es cerrado (`desde ≤ t ≤ hasta` está cerrado). No se puede esperar |
 | D6 | Aristas dirigidas | Por defecto dirigidas. `GRAFO;NO_DIRIGIDO` en el archivo, o el argumento `nodirigido`, las vuelve bidireccionales |
-| D7 | "3 mejores secuencias" | Distinta secuencia de lugares; para la misma secuencia se queda la asignación de modos más rápida. Los empates de tiempo se ordenan por orden de hallazgo, que es determinista |
+| D7 | "3 mejores secuencias" | Distinta secuencia de lugares; para la misma secuencia se queda la mejor asignación de modos. Criterio del top-3: menor tiempo; si empatan, **más batería final**; si siguen, **menos lugares recorridos** (`MisionUada.comparar`). La poda por cota usa `>` para no descartar rutas que empatan en tiempo |
 | D8 | Ruta truncada | Más obligatorios visitados y, si empatan, menor distancia recta (x, y) desde el último lugar al Aula 348 |
 | D9 | Aula 348 | Es el único lugar que se visita dos veces (inicio y fin) |
 
@@ -146,6 +146,6 @@ Espacio: O(n), por la pila de recursión, el camino y `visitado[]`.
 
 | Mapa | Resultado |
 | --- | --- |
-| `mapa_grande.txt` (dirigido) | 3 rutas de **417,5 s**, con secuencias distintas. Todas llegan al Molinete en 247,5 s |
+| `mapa_grande.txt` (dirigido) | 3 rutas de **417,5 s**, con secuencias distintas. Todas llegan al Molinete en 247,5 s. Por desempate de batería: 92,97 / 91,77 / 90,97 |
 | `mapa_grande_sin_solucion.txt` (dirigido) | **Sin solución**: no entra ninguna arista al 348. Truncada con 4/4 obligatorios, termina en el **Aula 613**, a √9700 ≈ **98,49** |
 | `mapa_grande_sin_solucion.txt nodirigido` | 3 rutas de **285,0 s** |

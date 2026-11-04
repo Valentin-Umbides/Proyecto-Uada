@@ -23,13 +23,16 @@ import java.util.*;
  *   6. Sin camino                    -> algún lugar que falta no tiene ninguna conexión de entrada.
  *   7. Batería insuficiente          -> aun recargando en todas las aulas pendientes, la batería no
  *                                       alcanza para ese consumo mínimo.
- *   8. Cota de tiempo                -> tiempo + ese tiempo mínimo no mejora la 3ra mejor ruta.
+ *   8. Cota de tiempo                -> tiempo + ese tiempo mínimo supera a la 3ra mejor ruta.
+ *
+ * Top-3: menor tiempo; si empatan, más batería final; si siguen, menos lugares recorridos.
  */
 public class MisionUada {
 
     public static final double BATERIA_INICIAL = 100.0;
     public static final double BATERIA_MAXIMA = 100.0;
     public static final int TOP = 3;
+    private static final double EPS = 1e-9;   // tolerancia para comparar tiempos y baterías
 
     private final Mapa mapa;
     private final Estacion origen;
@@ -172,13 +175,14 @@ public class MisionUada {
                                 String.format("necesita >= %.2f y como mucho tendría %.2f", faltaB, bateriaPosible));
                         continue;
                     }
-                    if (mejores.size() == TOP && t2 + faltaT >= mejores.get(TOP - 1).tiempoTotal) {
-                        podar(nivel, actual, sig, modo, "cota", String.format("cota %.1fs >= 3ra mejor %.1fs",
+                    // con '>' (y no '>=') no se pierden rutas que empatan en tiempo y ganan por batería
+                    if (mejores.size() == TOP && t2 + faltaT > mejores.get(TOP - 1).tiempoTotal + EPS) {
+                        podar(nivel, actual, sig, modo, "cota", String.format("cota %.1fs > 3ra mejor %.1fs",
                                 t2 + faltaT, mejores.get(TOP - 1).tiempoTotal));
                         continue;
                     }
-                } else if (cotas && mejores.size() == TOP && t2 >= mejores.get(TOP - 1).tiempoTotal) {
-                    podar(nivel, actual, sig, modo, "cota", String.format("%.1fs >= 3ra mejor %.1fs",
+                } else if (cotas && mejores.size() == TOP && t2 > mejores.get(TOP - 1).tiempoTotal + EPS) {
+                    podar(nivel, actual, sig, modo, "cota", String.format("%.1fs > 3ra mejor %.1fs",
                             t2, mejores.get(TOP - 1).tiempoTotal));
                     continue;
                 }
@@ -214,25 +218,35 @@ public class MisionUada {
     }
 
     /**
-     * Inserta la ruta en el top-3 ordenado por tiempo total. Devuelve la posición 1..3, o 0 si no entra.
+     * Inserta la ruta en el top-3 ordenado por {@link #comparar}. Devuelve la posición 1..3, o 0 si no entra.
      * Las 3 rutas tienen que pasar por lugares distintos: si ya hay una ruta con la misma secuencia de
-     * lugares (solo cambia el modo de algún tramo), se queda la más rápida de las dos.
+     * lugares (solo cambia el modo de algún tramo), se queda la mejor de las dos.
      */
     private int registrarSolucion(Ruta r) {
         String sec = r.secuencia();
         for (int i = 0; i < mejores.size(); i++) {
             if (mejores.get(i).secuencia().equals(sec)) {
-                if (r.tiempoTotal >= mejores.get(i).tiempoTotal) return 0;  // misma secuencia, no mejora
-                mejores.remove(i);                                          // misma secuencia, más rápida
+                if (comparar(r, mejores.get(i)) >= 0) return 0;   // misma secuencia, no mejora
+                mejores.remove(i);                                 // misma secuencia, mejor
                 break;
             }
         }
         int pos = 0;
-        while (pos < mejores.size() && mejores.get(pos).tiempoTotal <= r.tiempoTotal) pos++;
+        while (pos < mejores.size() && comparar(mejores.get(pos), r) <= 0) pos++;
         if (pos >= TOP) return 0;
         mejores.add(pos, r);
         if (mejores.size() > TOP) mejores.remove(TOP);
         return pos + 1;
+    }
+
+    /**
+     * Criterio del top-3: menor tiempo total; si empatan, más batería final; si siguen empatadas,
+     * menos lugares recorridos. Con todo igual, queda primero la que se encontró antes.
+     */
+    static int comparar(Ruta a, Ruta b) {
+        if (Math.abs(a.tiempoTotal - b.tiempoTotal) > EPS) return Double.compare(a.tiempoTotal, b.tiempoTotal);
+        if (Math.abs(a.bateriaFinal() - b.bateriaFinal()) > EPS) return Double.compare(b.bateriaFinal(), a.bateriaFinal());
+        return Integer.compare(a.pasos.size(), b.pasos.size());
     }
 
     /**
