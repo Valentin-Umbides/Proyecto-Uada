@@ -215,10 +215,18 @@ public class MisionUada {
 
     /**
      * Inserta la ruta en el top-3 ordenado por tiempo total. Devuelve la posición 1..3, o 0 si no entra.
-     * Cada solución es una secuencia distinta de decisiones (lugar + modo): dos rutas que pasan por los
-     * mismos lugares pero cambian el modo de algún tramo cuentan como rutas distintas.
+     * Las 3 rutas tienen que pasar por lugares distintos: si ya hay una ruta con la misma secuencia de
+     * lugares (solo cambia el modo de algún tramo), se queda la más rápida de las dos.
      */
     private int registrarSolucion(Ruta r) {
+        String sec = r.secuencia();
+        for (int i = 0; i < mejores.size(); i++) {
+            if (mejores.get(i).secuencia().equals(sec)) {
+                if (r.tiempoTotal >= mejores.get(i).tiempoTotal) return 0;  // misma secuencia, no mejora
+                mejores.remove(i);                                          // misma secuencia, más rápida
+                break;
+            }
+        }
         int pos = 0;
         while (pos < mejores.size() && mejores.get(pos).tiempoTotal <= r.tiempoTotal) pos++;
         if (pos >= TOP) return 0;
