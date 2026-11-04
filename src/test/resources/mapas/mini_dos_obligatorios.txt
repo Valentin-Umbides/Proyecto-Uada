@@ -1,0 +1,9 @@
+# Desde A se podría volver directo al 348, pero falta el obligatorio B (vuelta anticipada)
+LUGAR;Aula 348;348;0;0;0;0
+LUGAR;A;0;10;0;1;0
+LUGAR;B;0;10;10;1;0
+ARISTA;Aula 348;A;10;CSP
+ARISTA;A;Aula 348;10;CSP
+ARISTA;A;B;10;CSP
+ARISTA;B;Aula 348;10;CSP
+INICIO;Aula 348

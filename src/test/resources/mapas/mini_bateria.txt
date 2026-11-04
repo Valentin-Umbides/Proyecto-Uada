@@ -1,0 +1,6 @@
+# Cada tramo consume 60 de batería (3600 s caminando): llega a A con 40 y no le alcanza para volver
+LUGAR;Aula 348;348;0;0;0;0
+LUGAR;A;0;30;40;1;0
+ARISTA;Aula 348;A;3600;C
+ARISTA;A;Aula 348;3600;C
+INICIO;Aula 348

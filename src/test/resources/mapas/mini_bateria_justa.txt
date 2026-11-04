@@ -1,0 +1,6 @@
+# Cada tramo consume 50 de batería: llega al 348 con exactamente 0, que se acepta en el destino final
+LUGAR;Aula 348;348;0;0;0;0
+LUGAR;A;0;30;40;1;0
+ARISTA;Aula 348;A;3000;C
+ARISTA;A;Aula 348;3000;C
+INICIO;Aula 348

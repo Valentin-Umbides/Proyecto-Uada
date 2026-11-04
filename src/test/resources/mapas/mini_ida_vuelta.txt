@@ -1,0 +1,6 @@
+# Ida y vuelta a un único obligatorio: lo óptimo es saltar los dos tramos (5 + 5 s)
+LUGAR;Aula 348;348;0;0;0;0
+LUGAR;A;0;10;0;1;0
+ARISTA;Aula 348;A;10;CSP
+ARISTA;A;Aula 348;10;CSP
+INICIO;Aula 348

@@ -350,6 +350,9 @@ public class MisionUada {
 
     public List<Ruta> getMejores() { return mejores; }
     public Ruta getMejorParcial() { return mejorParcial; }
+    public int getMejorParcialObligatorias() { return mejorParcialObligatorias; }
+    public double getMejorParcialDistancia() { return mejorParcialDistancia; }
+    public Map<String, Long> getPodas() { return Collections.unmodifiableMap(podas); }
     public long getNodosAnalizados() { return nodosAnalizados; }
     public long getNodosExpandidos() { return nodosExpandidos; }
 }
