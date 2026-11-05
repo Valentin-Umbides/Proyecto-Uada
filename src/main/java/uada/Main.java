@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
  * Uso:
  *   java -cp out uada.Main mapas/mapa_grande.txt      -> mapa leído de archivo (el que den los profes)
  *   java -cp out uada.Main mapas/mapa_grande.txt sincota -> mismo, sin poda por cota (para verificar)
+ *   java -cp out uada.Main mapas/mapa_grande.txt sinespera -> un lugar cerrado poda la rama (no espera)
  *   java -cp out uada.Main mapa.txt nodirigido         -> fuerza grafo no dirigido (o "dirigido")
  *   java -cp out uada.Main base | imposible | chico    -> mapas de ejemplo cargados en código
  */
@@ -18,10 +19,12 @@ public class Main {
     public static void main(String[] args) throws IOException {
         String entrada = args.length > 0 ? args[0] : "base";
         boolean usarCota = true;
+        boolean permitirEspera = true;
         Boolean dirigido = null;   // null = lo que diga el archivo
         for (int i = 1; i < args.length; i++) {
             switch (args[i].toLowerCase()) {
                 case "sincota" -> usarCota = false;
+                case "sinespera" -> permitirEspera = false;
                 case "dirigido" -> dirigido = true;
                 case "nodirigido" -> dirigido = false;
                 default -> System.out.println("Opción ignorada: " + args[i]);
@@ -53,16 +56,18 @@ public class Main {
             nombre = entrada;
         }
         new java.io.File("logs").mkdirs();
-        String archivoLog = "logs/log_" + nombre + (usarCota ? "" : "_sincota") + ".txt";
+        String archivoLog = "logs/log_" + nombre + (usarCota ? "" : "_sincota")
+                + (permitirEspera ? "" : "_sinespera") + ".txt";
 
         try (PrintWriter log = new PrintWriter(new FileWriter(archivoLog, StandardCharsets.UTF_8))) {
             log.println("LOG DE EXPLORACIÓN - mapa '" + nombre + "'" + (usarCota ? "" : " (sin cota)")
+                    + (permitirEspera ? "" : " (sin espera)")
                     + " - grafo " + (mapa.isDirigido() ? "dirigido" : "no dirigido"));
             log.println("Formato: [#nodo] origen -> destino (modo) t=tiempo acumulado bat=batería restante");
             log.println("La sangría indica el nivel en el árbol de exploración.\n");
 
             long t0 = System.nanoTime();
-            MisionUada mision = new MisionUada(mapa, origen, usarCota, log, 2_000_000);
+            MisionUada mision = new MisionUada(mapa, origen, usarCota, permitirEspera, log, 2_000_000);
             mision.resolver();
             double ms = (System.nanoTime() - t0) / 1e6;
 

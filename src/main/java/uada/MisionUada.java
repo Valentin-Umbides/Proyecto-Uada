@@ -14,7 +14,9 @@ import java.util.*;
  *   2. Estación ya visitada          -> se pasa una única vez por cada lugar.
  *   3. Volver a A348 sin completar   -> no se puede cerrar el circuito.
  *   4. Batería                       -> la batería no puede llegar a 0 antes del destino final.
- *   5. Ventana temporal              -> la estación está cerrada en el tiempo de llegada.
+ *   5. Ventana temporal              -> la estación está cerrada en el tiempo de llegada. Con espera
+ *                                       (por defecto) no se poda: Uada espera en la puerta y entra
+ *                                       MARGEN_ESPERA segundos después del cierre (gasta tiempo, no batería).
  *
  * Branch & Bound (cotas optimistas, calculadas solo con el grafo, sin otros algoritmos):
  *   Todavía falta ENTRAR a cada obligatorio pendiente y, al final, ENTRAR a A348. Cada entrada usa
@@ -23,18 +25,24 @@ import java.util.*;
  *   6. Sin camino                    -> algún lugar que falta no tiene ninguna conexión de entrada.
  *   7. Batería insuficiente          -> aun recargando en todas las aulas pendientes, la batería no
  *                                       alcanza para ese consumo mínimo.
- *   8. Cota de tiempo                -> tiempo + ese tiempo mínimo no mejora la 3ra mejor ruta.
+ *   8. Cota de tiempo                -> tiempo + ese tiempo mínimo supera a la 3ra mejor ruta.
+ *
+ * Top-3: menor tiempo; si empatan, más batería final; si siguen, menos lugares recorridos.
  */
 public class MisionUada {
 
     public static final double BATERIA_INICIAL = 100.0;
     public static final double BATERIA_MAXIMA = 100.0;
     public static final int TOP = 3;
+    /** Si un lugar está cerrado hasta t, Uada entra en t + MARGEN_ESPERA (ej.: cerrado hasta 240 -> entra en 241). */
+    public static final double MARGEN_ESPERA = 1.0;
+    private static final double EPS = 1e-9;   // tolerancia para comparar tiempos y baterías
 
     private final Mapa mapa;
     private final Estacion origen;
     private final int totalObligatorias;
     private final boolean usarCota;
+    private final boolean permitirEspera;     // false = un lugar cerrado poda la rama (sin esperar)
     private boolean faseSecundaria = false;   // true = 2da pasada solo para el objetivo secundario
     private long nodosFase1 = -1;
 
@@ -58,15 +66,23 @@ public class MisionUada {
     private long nodosAnalizados = 0;   // nodos del árbol generados (candidatos evaluados)
     private long nodosExpandidos = 0;   // llamadas recursivas (estados válidos)
     private long solucionesEncontradas = 0;
+    private long esperas = 0;           // veces que Uada esperó a que abriera un lugar
     private final Map<String, Long> podas = new LinkedHashMap<>();
     private final PrintWriter log;      // null = sin log (para mediciones)
     private long lineasLog = 0;
     private final long maxLineasLog;
 
+    /** Con espera en las ventanas (lo confirmado por la cátedra). */
     public MisionUada(Mapa mapa, String codigoOrigen, boolean usarCota, PrintWriter log, long maxLineasLog) {
+        this(mapa, codigoOrigen, usarCota, true, log, maxLineasLog);
+    }
+
+    public MisionUada(Mapa mapa, String codigoOrigen, boolean usarCota, boolean permitirEspera,
+                      PrintWriter log, long maxLineasLog) {
         this.mapa = mapa;
         this.origen = mapa.get(codigoOrigen);
         this.usarCota = usarCota;
+        this.permitirEspera = permitirEspera;
         this.log = log;
         this.maxLineasLog = maxLineasLog;
         this.visitado = new boolean[mapa.size()];
@@ -142,10 +158,22 @@ public class MisionUada {
                     podar(nivel, actual, sig, modo, "batería", String.format("quedaría %.2f", b2));
                     continue;
                 }
+                double espera = 0;
                 if (sig.cerradaEn(t2)) {
-                    podar(nivel, actual, sig, modo, "ventana temporal",
-                            String.format("llega en t=%.1fs y está cerrada en %s", t2, cierresTexto(sig)));
-                    continue;
+                    if (!permitirEspera) {
+                        podar(nivel, actual, sig, modo, "ventana temporal",
+                                String.format("llega en t=%.1fs y está cerrada en %s", t2, cierresTexto(sig)));
+                        continue;
+                    }
+                    // espera en la puerta lo mínimo para entrar: suma tiempo, no consume batería
+                    double entrada = sig.primerInstanteAbierto(t2, MARGEN_ESPERA);
+                    if (Double.isInfinite(entrada)) {
+                        podar(nivel, actual, sig, modo, "ventana temporal",
+                                String.format("llega en t=%.1fs y está cerrada sin reapertura", t2));
+                        continue;
+                    }
+                    espera = entrada - t2;
+                    t2 = entrada;
                 }
                 double recarga = esCierre ? 0 : Math.min(sig.recarga(), BATERIA_MAXIMA - b2);
                 double b3 = b2 + recarga;
@@ -172,33 +200,37 @@ public class MisionUada {
                                 String.format("necesita >= %.2f y como mucho tendría %.2f", faltaB, bateriaPosible));
                         continue;
                     }
-                    if (mejores.size() == TOP && t2 + faltaT >= mejores.get(TOP - 1).tiempoTotal) {
-                        podar(nivel, actual, sig, modo, "cota", String.format("cota %.1fs >= 3ra mejor %.1fs",
+                    // con '>' (y no '>=') no se pierden rutas que empatan en tiempo y ganan por batería
+                    if (mejores.size() == TOP && t2 + faltaT > mejores.get(TOP - 1).tiempoTotal + EPS) {
+                        podar(nivel, actual, sig, modo, "cota", String.format("cota %.1fs > 3ra mejor %.1fs",
                                 t2 + faltaT, mejores.get(TOP - 1).tiempoTotal));
                         continue;
                     }
-                } else if (cotas && mejores.size() == TOP && t2 >= mejores.get(TOP - 1).tiempoTotal) {
-                    podar(nivel, actual, sig, modo, "cota", String.format("%.1fs >= 3ra mejor %.1fs",
+                } else if (cotas && mejores.size() == TOP && t2 > mejores.get(TOP - 1).tiempoTotal + EPS) {
+                    podar(nivel, actual, sig, modo, "cota", String.format("%.1fs > 3ra mejor %.1fs",
                             t2, mejores.get(TOP - 1).tiempoTotal));
                     continue;
                 }
 
                 // --- hacer ---
-                camino.addLast(new Movimiento(actual, sig, modo, b3, recarga, t2));
+                camino.addLast(new Movimiento(actual, sig, modo, b3, recarga, espera, t2));
+                if (espera > 0) esperas++;
+                String textoEspera = espera > 0
+                        ? String.format(" (esperó %.1fs: cerrada en %s)", espera, cierresTexto(sig)) : "";
 
                 if (esCierre) {
                     solucionesEncontradas++;
                     int pos = registrarSolucion(new Ruta(new ArrayList<>(camino)));
-                    escribir(nivel, String.format("[#%d] %s -> %s (%s) t=%.1fs bat=%.2f  ★ SOLUCIÓN %s",
-                            nodosAnalizados, actual, sig, modo.getNombre(), t2, b3,
+                    escribir(nivel, String.format("[#%d] %s -> %s (%s) t=%.1fs bat=%.2f%s  ★ SOLUCIÓN %s",
+                            nodosAnalizados, actual, sig, modo.getNombre(), t2, b3, textoEspera,
                             pos > 0 ? "-> entra al top-3 en posición " + pos : "(no mejora el top-3)"));
                 } else {
                     visitado[sig.getId()] = true;
                     recargasPendientes -= sig.recarga();
                     if (sig.isObligatoria()) obligatoriasVisitadas++;
-                    escribir(nivel, String.format("[#%d] %s -> %s (%s) t=%.1fs bat=%.2f%s | oblig %d/%d",
+                    escribir(nivel, String.format("[#%d] %s -> %s (%s) t=%.1fs bat=%.2f%s%s | oblig %d/%d",
                             nodosAnalizados, actual, sig, modo.getNombre(), t2, b3,
-                            recarga > 0 ? String.format(" (+%.1f recarga)", recarga) : "",
+                            recarga > 0 ? String.format(" (+%.1f recarga)", recarga) : "", textoEspera,
                             obligatoriasVisitadas, totalObligatorias));
 
                     backtrack(sig, t2, b3, nivel + 1);
@@ -214,25 +246,35 @@ public class MisionUada {
     }
 
     /**
-     * Inserta la ruta en el top-3 ordenado por tiempo total. Devuelve la posición 1..3, o 0 si no entra.
+     * Inserta la ruta en el top-3 ordenado por {@link #comparar}. Devuelve la posición 1..3, o 0 si no entra.
      * Las 3 rutas tienen que pasar por lugares distintos: si ya hay una ruta con la misma secuencia de
-     * lugares (solo cambia el modo de algún tramo), se queda la más rápida de las dos.
+     * lugares (solo cambia el modo de algún tramo), se queda la mejor de las dos.
      */
     private int registrarSolucion(Ruta r) {
         String sec = r.secuencia();
         for (int i = 0; i < mejores.size(); i++) {
             if (mejores.get(i).secuencia().equals(sec)) {
-                if (r.tiempoTotal >= mejores.get(i).tiempoTotal) return 0;  // misma secuencia, no mejora
-                mejores.remove(i);                                          // misma secuencia, más rápida
+                if (comparar(r, mejores.get(i)) >= 0) return 0;   // misma secuencia, no mejora
+                mejores.remove(i);                                 // misma secuencia, mejor
                 break;
             }
         }
         int pos = 0;
-        while (pos < mejores.size() && mejores.get(pos).tiempoTotal <= r.tiempoTotal) pos++;
+        while (pos < mejores.size() && comparar(mejores.get(pos), r) <= 0) pos++;
         if (pos >= TOP) return 0;
         mejores.add(pos, r);
         if (mejores.size() > TOP) mejores.remove(TOP);
         return pos + 1;
+    }
+
+    /**
+     * Criterio del top-3: menor tiempo total; si empatan, más batería final; si siguen empatadas,
+     * menos lugares recorridos. Con todo igual, queda primero la que se encontró antes.
+     */
+    static int comparar(Ruta a, Ruta b) {
+        if (Math.abs(a.tiempoTotal - b.tiempoTotal) > EPS) return Double.compare(a.tiempoTotal, b.tiempoTotal);
+        if (Math.abs(a.bateriaFinal() - b.bateriaFinal()) > EPS) return Double.compare(b.bateriaFinal(), a.bateriaFinal());
+        return Integer.compare(a.pasos.size(), b.pasos.size());
     }
 
     /**
@@ -315,6 +357,9 @@ public class MisionUada {
                     nodosFase1, nodosAnalizados - nodosFase1));
         sb.append(String.format(" Nodos expandidos (recursión) : %d%n", nodosExpandidos));
         sb.append(String.format(" Soluciones completas halladas: %d%n", solucionesEncontradas));
+        sb.append(permitirEspera
+                ? String.format(" Esperas por lugar cerrado   : %d (entra %.0f s después del cierre)%n", esperas, MARGEN_ESPERA)
+                : " Esperas por lugar cerrado   : no permitidas (un lugar cerrado poda la rama)\n");
         sb.append(" Podas por motivo:\n");
         podas.forEach((k, v) -> sb.append(String.format("    - %-18s: %d%n", k, v)));
         sb.append("\n");

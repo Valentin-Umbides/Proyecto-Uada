@@ -39,6 +39,21 @@ public class Estacion {
         return false;
     }
 
+    /**
+     * Primer instante en que se puede entrar llegando en t: el mismo t si está abierta; si no,
+     * 'margen' segundos después del fin del cierre (repitiendo si enseguida empieza otro cierre).
+     * Devuelve infinito si el cierre no termina nunca.
+     */
+    public double primerInstanteAbierto(double t, double margen) {
+        while (cerradaEn(t)) {
+            double fin = t;
+            for (Ventana v : cierres) if (v.contiene(t)) fin = Math.max(fin, v.getHasta());
+            if (Double.isInfinite(fin)) return Double.POSITIVE_INFINITY;
+            t = fin + margen;
+        }
+        return t;
+    }
+
     public double distanciaRecta(Estacion otra) {
         return Math.hypot(x - otra.x, y - otra.y);
     }

@@ -24,9 +24,11 @@ Comando de Maven: si `mvn` no está en el PATH, usar el que está en
 | 0 | `features/plan-iteraciones` | `docs/estrategia.md` y este plan | — |
 | 1 | `features/maven-y-tests-modelo` | Proyecto Maven y tests del modelo y del lector de mapas | — |
 | 2 | `features/tests-backtracking` | Tests del algoritmo: mapas chicos, mapas reales y "con cota = sin cota" | 1 |
-| 3 | `features/tests-log-y-reporte` | Tests del log, del reporte y de los argumentos de `Main` | 2 |
+| 2b | `features/desempate-top3` | Desempate del top-3: más batería y después menos lugares (pedido por la profe) | 2 |
+| 2c | `features/espera-en-ventanas` | Uada puede esperar a que abra un lugar: gasta tiempo, no batería (confirmado por la profe) | 2b |
+| 3 | `features/tests-log-y-reporte` | Tests del log, del reporte y de los argumentos de `Main` | 2c |
 | 4 | `features/benchmark-reproducible` | Tests del generador, benchmark configurable, CSV y gráfico regenerados | 1 |
-| 5 | `features/informe` | Informe completo con todos los entregables | 2, 3 y 4 |
+| 5 | `features/informe` | Informe completo con todos los entregables | 2c, 3 y 4 |
 
 Las iteraciones 2 y 4 son independientes entre sí, así que se pueden trabajar en paralelo
 después de la 1.
@@ -104,7 +106,7 @@ Si se necesitan getters (`getMejorParcial`, estadísticas), se agregan sin cambi
 ### Iteración 3 — `features/tests-log-y-reporte`
 
 - La cantidad de líneas del log que empiezan con `[#` es igual a `getNodosAnalizados()`, mientras el log no se trunque.
-- El log de `mini_ventana` contiene `PODA: ventana temporal` y `★ SOLUCIÓN`.
+- El log de `mini_ventana` contiene `esperó 2.0s` y `★ SOLUCIÓN`; con `sinespera`, contiene `PODA: ventana temporal`.
 - Con `maxLineasLog = 5` aparece la línea `log truncado`.
 - `reporte()` con solución contiene `Ruta #1`, `Tiempo total: 417.5 s` y la tabla con las columnas Origen, Destino, Movimiento, Batería y T. acumulado. Sin solución contiene `NO EXISTE SOLUCIÓN`, `Punto máximo de avance: Aula 613` y `Distancia recta`.
 - `Main` con un archivo inexistente imprime `No se encontró el archivo` y no lanza excepción. Con una opción desconocida imprime `Opción ignorada`.

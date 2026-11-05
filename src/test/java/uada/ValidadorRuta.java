@@ -53,7 +53,14 @@ final class ValidadorRuta {
             bat -= m.modo.consumo(c.getSegundos());
             if (esCierre) assertTrue(bat >= -EPS, paso + "llega al destino con batería " + bat);
             else assertTrue(bat > EPS, paso + "se queda sin batería (" + bat + ")");
-            assertFalse(m.destino.cerradaEn(t), paso + "llega en t=" + t + " con el lugar cerrado");
+            if (m.espera > EPS) {
+                // solo se espera si el lugar está cerrado al llegar, y lo mínimo para poder entrar
+                assertTrue(m.destino.cerradaEn(t), paso + "espera sin que el lugar esté cerrado");
+                double entrada = m.destino.primerInstanteAbierto(t, MisionUada.MARGEN_ESPERA);
+                assertEquals(entrada - t, m.espera, EPS, paso + "espera");
+                t = entrada;   // esperar consume tiempo, no batería
+            }
+            assertFalse(m.destino.cerradaEn(t), paso + "entra en t=" + t + " con el lugar cerrado");
 
             double recarga = esCierre ? 0 : Math.min(m.destino.recarga(), MisionUada.BATERIA_MAXIMA - bat);
             bat += recarga;

@@ -6,15 +6,17 @@ public class Movimiento {
     final Modo modo;
     final double bateriaRestante;   // luego de moverse y (si corresponde) recargar
     final double recarga;           // batería recargada al llegar
-    final double tiempoAcumulado;
+    final double espera;            // segundos esperando a que abra el destino (0 si estaba abierto)
+    final double tiempoAcumulado;   // al entrar al destino (incluye la espera)
 
     public Movimiento(Estacion origen, Estacion destino, Modo modo,
-                      double bateriaRestante, double recarga, double tiempoAcumulado) {
+                      double bateriaRestante, double recarga, double espera, double tiempoAcumulado) {
         this.origen = origen;
         this.destino = destino;
         this.modo = modo;
         this.bateriaRestante = bateriaRestante;
         this.recarga = recarga;
+        this.espera = espera;
         this.tiempoAcumulado = tiempoAcumulado;
     }
 }

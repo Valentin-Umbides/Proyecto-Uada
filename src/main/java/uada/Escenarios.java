@@ -63,10 +63,13 @@ public class Escenarios {
         return m;
     }
 
-    /** Mismo mapa, pero el Starbucks cierra todo el día por inventario: no hay solución. */
+    /**
+     * Mismo mapa, pero el Starbucks cierra por inventario y no vuelve a abrir: no hay solución
+     * (esperar no sirve porque el cierre no tiene fin).
+     */
     public static Mapa uadeImposible() {
         Mapa m = uade();
-        m.get("STARBUCKS").agregarCierre(new Ventana(0, 100_000));
+        m.get("STARBUCKS").agregarCierre(new Ventana(0, Double.POSITIVE_INFINITY));
         return m;
     }
 
