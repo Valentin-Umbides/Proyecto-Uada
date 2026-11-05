@@ -123,7 +123,9 @@ Si se necesitan getters (`getMejorParcial`, estadísticas), se agregan sin cambi
   - `uade()`, `uadeChico()` y `uadeImposible()` se resuelven (el imposible sin solución).
 - `Benchmark` acepta argumentos opcionales `nMin nMax semillas`. Los valores por defecto son los actuales.
 - Test `BenchmarkTest` con n de 5 a 8: con cota y sin cota dan el mismo top-3 en todas las semillas.
+  La comparación (`Benchmark.mismoTop3`) ahora exige también las mismas secuencias de lugares, no solo los tiempos.
 - Regenerar `complejidad_practica.csv` y `grafico_complejidad.png` con `python graficar.py`, y commitearlos.
+  `graficar.py` necesita matplotlib: `pip install matplotlib`.
 
 ### Iteración 5 — `features/informe`
 

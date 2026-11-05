@@ -39,6 +39,7 @@ Las líneas con # son comentarios.
 
 ## Complejidad práctica
     java -cp out uada.Benchmark        # genera complejidad_practica.csv (tarda varios minutos)
+    java -cp out uada.Benchmark 5 10 3 # opcional: n de 5 a 10 con 3 semillas (más rápido)
     python3 graficar.py                # genera grafico_complejidad.png
 
 ## Clases (src/main/java/uada)
