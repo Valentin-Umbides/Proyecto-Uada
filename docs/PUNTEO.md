@@ -14,7 +14,8 @@ Uada sale del Aula 348, tiene que pasar por todos los lugares obligatorios y vol
     - Caminar gasta 1 punto de batería por minuto. Saltar tarda la mitad y gasta 2,2 veces más. Patas para arriba tarda el doble y gasta 55% menos.
     - Las aulas recargan (suma de dígitos)/5, con tope de 100.
     - La batería debe quedar > 0 después de cada movimiento (al llegar al final, ≥ 0).
-    - Una ventana cerrada se mira en el **momento de llegada**, y Uada no puede esperar.
+    - Una ventana cerrada se mira en el **momento de llegada**. Si está cerrado, Uada **espera** en la puerta y entra 1 s después del cierre: gasta tiempo, no batería (confirmado por la profe).
+    - Si dos rutas empatan en tiempo, gana la de más batería final y después la que pasa por menos lugares (pedido por la profe).
     - El "aula 633" del enunciado es un error de tipeo por el aula 348 (confirmado por la profe).
 2. **Armamos un mapa de ejemplo de UADE** (13 lugares) donde la batería sí importa: recorrer todo caminando gasta más de 100.
 3. **Programamos el backtracking en Java** (`MisionUada.java`): prueba todas las rutas posibles, guarda las 3 mejores y deshace cada paso al volver.
@@ -23,9 +24,10 @@ Uada sale del Aula 348, tiene que pasar por todos los lugares obligatorios y vol
 6. **Log del árbol:** cada decisión queda escrita en `logs/log_<mapa>.txt` con su nivel, su número de nodo y el motivo de cada poda.
 7. **Lector de mapas desde `.txt`** (`CargadorMapa.java`): acepta el formato de la cátedra, grafos dirigidos o no, y mapas con o sin coordenadas.
 8. **Probamos con los dos archivos de prueba de la cátedra** (uno con solución y otro sin solución), y dan lo esperado:
-    - `mapa_grande.txt` → 3 rutas distintas de 417,5 s.
+    - `mapa_grande.txt` → 3 rutas distintas de 411 s (sin poder esperar daba 417,5 s; se puede ver con la opción `sinespera`).
     - `mapa_grande_sin_solucion.txt` → ruta truncada que visita los 4 obligatorios.
 9. **Verificamos que las podas no rompen nada:** corrimos con y sin poda y siempre salió el mismo top-3.
+    - Además hay 60 tests automáticos (`mvn test`), y uno re-simula cada ruta devuelta para comprobar todas las reglas.
 10. **Medimos la complejidad práctica:** mapas aleatorios de 5 a 18 lugares, con tiempos y nodos graficados.
 11. **Escribimos el informe** con todos los entregables: estrategia, pseudocódigo, complejidad, log, gráfico, análisis comparativo, escenarios reales y conclusiones.
 
@@ -92,7 +94,7 @@ Ejemplo con el mapa base: la entrada más rápida a BIBLIO es de 240 s y la del 
 
 No hay que tocar código: se escribe el mapa en un `.txt` y se pasa como argumento.
 
-1. Compilar una vez: `javac -encoding UTF-8 -d out src/uada/*.java`
+1. Compilar una vez: `mvn package` (o sin Maven: `javac -encoding UTF-8 -d out src/main/java/uada/*.java` y usar `-cp out`)
 2. Copiar `mapas/mapa_grande.txt` y reemplazar los datos con los del mapa nuevo:
 
 ```
@@ -102,7 +104,7 @@ ARISTA;origen;destino;segundos;CSP
 VENTANA;lugar;desde;hasta
 ```
 
-3. Correr: `java -cp out uada.Main mapas/mapa_profes.txt`
+3. Correr: `java -cp target/classes uada.Main mapas/mapa_profes.txt`
 4. Ver el resultado en consola y el árbol en `logs/log_mapa_profes.txt`.
 
 Cosas a tener en cuenta:
@@ -110,7 +112,7 @@ Cosas a tener en cuenta:
 - **Mapa dirigido (confirmado):** el mapa de los profes viene con direcciones, como los de prueba, y el programa ya lo lee así por defecto: cada `ARISTA` va solo de origen a destino. No hay que agregar nada al archivo ni al comando.
 - **Errores de tipeo:** el programa dice la línea exacta (por ejemplo, `Línea 3: modo desconocido 'Z' (usar C, S o P)`).
 - **Sin coordenadas:** si el mapa no trae x/y, funciona igual. Para la ruta truncada solo cuenta cuántos obligatorios visitó (sin coordenadas no hay distancia recta).
-- **Tamaño:** hasta unos 16 lugares responde en alrededor de 1 segundo; con 18 tarda unos 17 s. Los archivos de la profe (20 lugares) tardan menos de 1,5 s. Un mapa de 25 o más lugares muy conectados podría tardar mucho.
+- **Tamaño:** hasta unos 16 lugares responde en menos de un cuarto de segundo; con 18 tarda unos 4 s. Los archivos de la profe (20 lugares) tardan menos de 1,5 s. Un mapa de 25 o más lugares muy conectados podría tardar mucho.
 - **Si piden un cambio en vivo:** casi todo está en `MisionUada.backtrack()`. Ahí se agrega una regla nueva como una poda más (`if (...) { podar(...); continue; }`).
 
 ## Complejidad y otras técnicas, en simple
@@ -141,7 +143,8 @@ Calcular las entradas más baratas cuesta O(n + m) una sola vez (m = cantidad de
 | ¿Dónde está el "volver atrás"? | En `backtrack()`, después de la llamada recursiva: `visitado[sig] = false` y `camino.removeLast()` |
 | ¿Qué es un nodo del árbol? | Cada opción evaluada (vecino + modo). Los que pasan las podas generan una llamada recursiva |
 | ¿Cómo garantizan que es el óptimo? | Se exploran todas las ramas salvo las podadas, y las podas solo cortan lo inválido o lo que no puede mejorar. Verificado con y sin cota |
-| ¿Cómo eligen las 3 mejores? | Ordenadas por tiempo total y con secuencias de lugares distintas; si dos rutas pasan por los mismos lugares, queda la más rápida |
+| ¿Cómo eligen las 3 mejores? | Ordenadas por tiempo total; si empatan, más batería y después menos lugares (`MisionUada.comparar`). Con secuencias de lugares distintas; si dos rutas pasan por los mismos lugares, queda la mejor |
+| ¿Qué pasa si llega a un lugar cerrado? | Espera en la puerta y entra 1 s después del cierre (`MARGEN_ESPERA`); suma tiempo, no batería. Si el cierre no termina nunca, se poda |
 | ¿Por qué se prueba primero saltar? | Es el modo más rápido: llena antes el top-3 y la cota empieza a podar más temprano |
 | ¿Qué pasa si no hay solución? | Devuelve la ruta truncada con más obligatorios y más cerca del 348 (con fase 2 si hace falta). Nunca devuelve vacío |
 | ¿Cómo se calcula la recarga? | (suma de dígitos del aula)/5 al llegar. Ej.: 613 → (6+1+3)/5 = 2 |
@@ -158,6 +161,8 @@ Confirmado con la cátedra:
 - [x] El mapa es dirigido: viene con direcciones.
 - [x] "Aula 633" = aula 348: era un error de tipeo.
 - [x] La batería tiene tope de 100.
+- [x] Uada puede esperar a que abra un lugar: gasta tiempo, no batería.
+- [x] Empates del top-3: más batería y después menos lugares.
 - [x] Técnica: solo backtracking con branch & bound (Floyd ya se sacó).
 - [x] Las 3 mejores rutas pasan por lugares distintos.
 
