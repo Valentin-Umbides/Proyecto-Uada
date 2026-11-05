@@ -111,6 +111,9 @@ Si se necesitan getters (`getMejorParcial`, estadísticas), se agregan sin cambi
 - `reporte()` con solución contiene `Ruta #1`, `Tiempo total: 417.5 s` y la tabla con las columnas Origen, Destino, Movimiento, Batería y T. acumulado. Sin solución contiene `NO EXISTE SOLUCIÓN`, `Punto máximo de avance: Aula 613` y `Distancia recta`.
 - `Main` con un archivo inexistente imprime `No se encontró el archivo` y no lanza excepción. Con una opción desconocida imprime `Opción ignorada`.
 - Si se encuentran problemas de formato (decimales con coma según el locale, acentos), se corrigen en esta iteración.
+  - **Encontrado y corregido:** en una PC configurada en español la salida usaba coma decimal
+    (`411,0`), distinta del log del repo. Ahora todo el formato usa `Locale.ROOT` (punto decimal),
+    y `SalidaTest` corre con locale `es-AR` para que no vuelva a pasar.
 
 ### Iteración 4 — `features/benchmark-reproducible`
 

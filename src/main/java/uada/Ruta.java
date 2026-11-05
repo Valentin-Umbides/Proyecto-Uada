@@ -2,6 +2,7 @@ package uada;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /** Secuencia de movimientos (solución completa o ruta truncada). */
 public class Ruta {
@@ -45,22 +46,22 @@ public class Ruta {
         for (Movimiento m : pasos) w = Math.max(w, Math.max(m.origen.getCodigo().length(), m.destino.getCodigo().length()));
         String f1 = "  %-3s %-" + w + "s %-" + w + "s %-18s %10s %9s %9s %12s%n";
         String f2 = "  %-3d %-" + w + "s %-" + w + "s %-18s %10.2f %9s %9s %10.1f s%n";
-        sb.append(String.format(f1,
+        sb.append(String.format(Locale.ROOT, f1,
                 "#", "Origen", "Destino", "Movimiento", "Batería", "Recarga", "Espera", "T. acumulado"));
         int i = 1;
         for (Movimiento m : pasos) {
-            sb.append(String.format(f2,
+            sb.append(String.format(Locale.ROOT, f2,
                     i++, m.origen.getCodigo(), m.destino.getCodigo(), m.modo.getNombre(),
-                    m.bateriaRestante, m.recarga > 0 ? String.format("+%.1f", m.recarga) : "-",
-                    m.espera > 0 ? String.format("%.1f s", m.espera) : "-",
+                    m.bateriaRestante, m.recarga > 0 ? String.format(Locale.ROOT, "+%.1f", m.recarga) : "-",
+                    m.espera > 0 ? String.format(Locale.ROOT, "%.1f s", m.espera) : "-",
                     m.tiempoAcumulado));
         }
-        sb.append(String.format("  Tiempo total: %.1f s (%s)%n", tiempoTotal, formatear(tiempoTotal)));
+        sb.append(String.format(Locale.ROOT, "  Tiempo total: %.1f s (%s)%n", tiempoTotal, formatear(tiempoTotal)));
         return sb.toString();
     }
 
     static String formatear(double seg) {
         long s = Math.round(seg);
-        return String.format("%d min %02d s", s / 60, s % 60);
+        return String.format(Locale.ROOT, "%d min %02d s", s / 60, s % 60);
     }
 }
