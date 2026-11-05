@@ -18,12 +18,21 @@ class MisionUadaTest {
 
     /** Carga el mapa, corre el backtracking sin log y valida todas las rutas devueltas. */
     private static MisionUada resolver(String archivo, Boolean dirigido, boolean usarCota) throws IOException {
+        return resolver(archivo, dirigido, usarCota, true);
+    }
+
+    private static MisionUada resolver(String archivo, Boolean dirigido, boolean usarCota, boolean espera)
+            throws IOException {
         CargadorMapa.Resultado r = CargadorMapa.cargar(archivo, dirigido);
-        return resolver(r.mapa, r.origen, usarCota);
+        return resolver(r.mapa, r.origen, usarCota, espera);
     }
 
     private static MisionUada resolver(Mapa mapa, String origen, boolean usarCota) {
-        MisionUada u = new MisionUada(mapa, origen, usarCota, null, 0);
+        return resolver(mapa, origen, usarCota, true);
+    }
+
+    private static MisionUada resolver(Mapa mapa, String origen, boolean usarCota, boolean espera) {
+        MisionUada u = new MisionUada(mapa, origen, usarCota, espera, null, 0);
         u.resolver();
         for (Ruta ruta : u.getMejores()) ValidadorRuta.validarSolucion(mapa, origen, ruta);
         if (u.getMejores().isEmpty()) ValidadorRuta.validarTruncada(mapa, origen, u.getMejorParcial());
@@ -47,12 +56,28 @@ class MisionUadaTest {
     }
 
     @Test
-    void ventanaCerradaObligaACaminarElPrimerTramo() throws IOException {
+    void conVentanaCerradaEsperaAQueAbra() throws IOException {
         MisionUada u = resolver(MINI + "mini_ventana.txt", null, true);
+        Ruta r = u.getMejores().get(0);
+        // saltando llega en t=5 (cerrado en [4, 6]), espera hasta t=7 y vuelve saltando: 7 + 5
+        assertEquals(12.0, r.tiempoTotal, EPS);
+        assertEquals(List.of("SALTANDO", "SALTANDO"), modos(r));
+        assertEquals(2.0, r.pasos.get(0).espera, EPS);
+        assertEquals(7.0, r.pasos.get(0).tiempoAcumulado, EPS);
+        assertEquals(0.0, r.pasos.get(1).espera, EPS);
+        // esperar no gasta batería: igual que saltar ida y vuelta sin ventana
+        assertEquals(100 - 2 * (10 / 60.0 * 2.2), r.bateriaFinal(), EPS);
+        assertEquals(0L, u.getPodas().get("ventana temporal"));
+    }
+
+    @Test
+    void sinEsperaLaVentanaObligaACaminarElPrimerTramo() throws IOException {
+        MisionUada u = resolver(MINI + "mini_ventana.txt", null, true, false);
         Ruta r = u.getMejores().get(0);
         assertEquals(15.0, r.tiempoTotal, EPS);   // caminando llega en t=10, vuelve saltando en 5
         assertEquals(List.of("CAMINANDO", "SALTANDO"), modos(r));
         assertTrue(u.getPodas().get("ventana temporal") >= 1);
+        for (Movimiento m : r.pasos) assertEquals(0.0, m.espera, EPS);
     }
 
     @Test
@@ -109,18 +134,28 @@ class MisionUadaTest {
     // ---------------------------------------------------------------- mapas de la cátedra
 
     @Test
-    void mapaGrandeTresRutasDe417ConLugaresDistintos() throws IOException {
-        MisionUada u = resolver(MAPA_GRANDE, null, true);
+    void mapaGrandeConEsperaTresRutasDe411() throws IOException {
+        // lo más rápido llega al Molinete en t=200 (cerrado en [200, 240]): espera y entra en t=241;
+        // desde el Molinete hasta el 348 faltan 170 s como mínimo -> 411 s
+        assertTop3(resolver(MAPA_GRANDE, null, true), 411.0, 241.0);
+    }
+
+    @Test
+    void mapaGrandeSinEsperaTresRutasDe417() throws IOException {
+        // sin poder esperar, hay que ir más lento para llegar al Molinete recién en t=247.5
+        assertTop3(resolver(MAPA_GRANDE, null, true, false), 417.5, 247.5);
+    }
+
+    private static void assertTop3(MisionUada u, double tiempo, double llegadaMolinete) {
         List<Ruta> mejores = u.getMejores();
         assertEquals(3, mejores.size());
         Set<String> secuencias = new HashSet<>();
         for (Ruta r : mejores) {
-            assertEquals(417.5, r.tiempoTotal, EPS);
+            assertEquals(tiempo, r.tiempoTotal, EPS);
             assertTrue(secuencias.add(r.secuencia()), "secuencia repetida: " + r.secuencia());
-            // las ventanas obligan a llegar al Molinete recién en t=247.5 (cerrado en [200, 240])
             Movimiento aMolinete = r.pasos.stream()
                     .filter(m -> m.destino.getCodigo().equals("Molinete Lima 3")).findFirst().orElseThrow();
-            assertEquals(247.5, aMolinete.tiempoAcumulado, EPS);
+            assertEquals(llegadaMolinete, aMolinete.tiempoAcumulado, EPS);
         }
         // empatan en tiempo: el top-3 queda ordenado por batería final, de mayor a menor
         for (int i = 1; i < mejores.size(); i++)
@@ -147,13 +182,15 @@ class MisionUadaTest {
 
     @Test
     void conCotaYSinCotaDanElMismoTop3() {
-        for (Mapa m : List.of(Escenarios.uade(), Escenarios.uadeChico())) {
-            MisionUada con = resolver(m, "A348", true);
-            MisionUada sin = resolver(m, "A348", false);
-            assertEquals(secuencias(sin.getMejores()), secuencias(con.getMejores()));
-            for (int i = 0; i < con.getMejores().size(); i++)
-                assertEquals(sin.getMejores().get(i).tiempoTotal, con.getMejores().get(i).tiempoTotal, EPS);
-            assertTrue(con.getNodosAnalizados() < sin.getNodosAnalizados(), "la cota no podó nada");
+        for (boolean espera : new boolean[]{true, false}) {
+            for (Mapa m : List.of(Escenarios.uade(), Escenarios.uadeChico())) {
+                MisionUada con = resolver(m, "A348", true, espera);
+                MisionUada sin = resolver(m, "A348", false, espera);
+                assertEquals(secuencias(sin.getMejores()), secuencias(con.getMejores()));
+                for (int i = 0; i < con.getMejores().size(); i++)
+                    assertEquals(sin.getMejores().get(i).tiempoTotal, con.getMejores().get(i).tiempoTotal, EPS);
+                assertTrue(con.getNodosAnalizados() < sin.getNodosAnalizados(), "la cota no podó nada");
+            }
         }
     }
 

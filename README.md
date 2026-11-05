@@ -14,6 +14,10 @@ Sin Maven también se compila con javac:
     java -cp out uada.Main mapas/mapa_grande.txt
     java -cp out uada.Main mapas/mapa_grande.txt nodirigido   # fuerza grafo no dirigido
     java -cp out uada.Main mapas/mapa_grande.txt sincota      # sin poda por cota (para verificar)
+    java -cp out uada.Main mapas/mapa_grande.txt sinespera    # un lugar cerrado poda la rama (Uada no espera)
+
+Por defecto, si Uada llega a un lugar cerrado, espera en la puerta y entra 1 s después del cierre
+(gasta tiempo, no batería).
 
 Si se compiló con Maven, usar `-cp target/classes` en lugar de `-cp out`.
 

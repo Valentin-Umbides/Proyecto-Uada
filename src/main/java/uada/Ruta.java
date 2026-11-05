@@ -43,15 +43,16 @@ public class Ruta {
         StringBuilder sb = new StringBuilder();
         int w = 9;
         for (Movimiento m : pasos) w = Math.max(w, Math.max(m.origen.getCodigo().length(), m.destino.getCodigo().length()));
-        String f1 = "  %-3s %-" + w + "s %-" + w + "s %-18s %10s %9s %12s%n";
-        String f2 = "  %-3d %-" + w + "s %-" + w + "s %-18s %10.2f %9s %10.1f s%n";
+        String f1 = "  %-3s %-" + w + "s %-" + w + "s %-18s %10s %9s %9s %12s%n";
+        String f2 = "  %-3d %-" + w + "s %-" + w + "s %-18s %10.2f %9s %9s %10.1f s%n";
         sb.append(String.format(f1,
-                "#", "Origen", "Destino", "Movimiento", "Batería", "Recarga", "T. acumulado"));
+                "#", "Origen", "Destino", "Movimiento", "Batería", "Recarga", "Espera", "T. acumulado"));
         int i = 1;
         for (Movimiento m : pasos) {
             sb.append(String.format(f2,
                     i++, m.origen.getCodigo(), m.destino.getCodigo(), m.modo.getNombre(),
                     m.bateriaRestante, m.recarga > 0 ? String.format("+%.1f", m.recarga) : "-",
+                    m.espera > 0 ? String.format("%.1f s", m.espera) : "-",
                     m.tiempoAcumulado));
         }
         sb.append(String.format("  Tiempo total: %.1f s (%s)%n", tiempoTotal, formatear(tiempoTotal)));

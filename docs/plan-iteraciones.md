@@ -106,7 +106,7 @@ Si se necesitan getters (`getMejorParcial`, estadísticas), se agregan sin cambi
 ### Iteración 3 — `features/tests-log-y-reporte`
 
 - La cantidad de líneas del log que empiezan con `[#` es igual a `getNodosAnalizados()`, mientras el log no se trunque.
-- El log de `mini_ventana` contiene `PODA: ventana temporal` y `★ SOLUCIÓN`.
+- El log de `mini_ventana` contiene `esperó 2.0s` y `★ SOLUCIÓN`; con `sinespera`, contiene `PODA: ventana temporal`.
 - Con `maxLineasLog = 5` aparece la línea `log truncado`.
 - `reporte()` con solución contiene `Ruta #1`, `Tiempo total: 417.5 s` y la tabla con las columnas Origen, Destino, Movimiento, Batería y T. acumulado. Sin solución contiene `NO EXISTE SOLUCIÓN`, `Punto máximo de avance: Aula 613` y `Distancia recta`.
 - `Main` con un archivo inexistente imprime `No se encontró el archivo` y no lanza excepción. Con una opción desconocida imprime `Opción ignorada`.

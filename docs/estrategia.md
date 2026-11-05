@@ -34,7 +34,7 @@ Según `docs/PUNTEO.md`, la cátedra confirmó: el mapa es dirigido (D6), "Aula 
 | D2 | "Aula 633" en la consigna | Errata: el destino final es el Aula 348 |
 | D3 | Batería en 0 | En el camino tiene que quedar > 0. Al llegar al 348 final se acepta ≥ 0 |
 | D4 | Llegar y recargar | Se controla la batería al llegar y recién después se recarga, con tope de 100. El 348 no recarga |
-| D5 | Ventanas | Se evalúan con el tiempo de llegada. El intervalo es cerrado (`desde ≤ t ≤ hasta` está cerrado). No se puede esperar |
+| D5 | Ventanas | Se evalúan con el tiempo de llegada; el intervalo es cerrado (`desde ≤ t ≤ hasta` está cerrado). **Uada puede esperar** (confirmado por la profe): si llega con el lugar cerrado, espera en la puerta y entra 1 s después del cierre (`MARGEN_ESPERA`; cerrado hasta 240 → entra en 241). Esperar suma tiempo y no gasta batería. Espera solo lo mínimo; ir más lento sigue siendo otra opción. Un cierre sin fin (`hasta = ∞`) poda la rama. Con `sinespera` se vuelve a la regla anterior: un lugar cerrado poda la rama |
 | D6 | Aristas dirigidas | Por defecto dirigidas. `GRAFO;NO_DIRIGIDO` en el archivo, o el argumento `nodirigido`, las vuelve bidireccionales |
 | D7 | "3 mejores secuencias" | Distinta secuencia de lugares; para la misma secuencia se queda la mejor asignación de modos. Criterio del top-3: menor tiempo; si empatan, **más batería final**; si siguen, **menos lugares recorridos** (`MisionUada.comparar`). La poda por cota usa `>` para no descartar rutas que empatan en tiempo |
 | D8 | Ruta truncada | Más obligatorios visitados y, si empatan, menor distancia recta (x, y) desde el último lugar al Aula 348 |
@@ -76,7 +76,11 @@ función backtrack(actual, t, bat, nivel):
             analizados++
             t2 ← t + tiempo(c, m);   b2 ← bat − consumo(c, m)
             si (esCierre y b2 < 0) o (no esCierre y b2 ≤ 0):   podar(BATERIA);  continuar
-            si sig está cerrado en t2:                       podar(VENTANA);  continuar
+            espera ← 0
+            si sig está cerrado en t2:
+                entrada ← fin del cierre + 1                 // primer instante abierto
+                si entrada = ∞ o no se permite esperar:     podar(VENTANA);  continuar
+                espera ← entrada − t2;   t2 ← entrada       // suma tiempo, no batería
             b3 ← b2 + (esCierre ? 0 : min(recarga(sig), 100 − b2))
             si hay que aplicar cotas:                        // fase 1
                 si no esCierre:
@@ -146,6 +150,7 @@ Espacio: O(n), por la pila de recursión, el camino y `visitado[]`.
 
 | Mapa | Resultado |
 | --- | --- |
-| `mapa_grande.txt` (dirigido) | 3 rutas de **417,5 s**, con secuencias distintas. Todas llegan al Molinete en 247,5 s. Por desempate de batería: 92,97 / 91,77 / 90,97 |
+| `mapa_grande.txt` (dirigido, con espera) | 3 rutas de **411,0 s**: lo más rápido llega al Molinete en t=200 (cerrado hasta 240), espera y entra en 241; después faltan 170 s. Por desempate de batería: 92,67 / 91,47 / 90,67. Sin cota: mismo top-3 (12,6 M nodos) |
+| `mapa_grande.txt sinespera` | 3 rutas de **417,5 s** (hay que ir más lento para llegar al Molinete recién en 247,5). Batería 92,97 / 91,77 / 90,97 |
 | `mapa_grande_sin_solucion.txt` (dirigido) | **Sin solución**: no entra ninguna arista al 348. Truncada con 4/4 obligatorios, termina en el **Aula 613**, a √9700 ≈ **98,49** |
 | `mapa_grande_sin_solucion.txt nodirigido` | 3 rutas de **285,0 s** |
