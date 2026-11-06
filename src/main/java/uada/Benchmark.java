@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Complejidad práctica: mide el tiempo (ms) y los nodos analizados para distintos tamaños n.
@@ -23,7 +24,7 @@ public class Benchmark {
 
         try (PrintWriter csv = new PrintWriter(new FileWriter("complejidad_practica.csv", StandardCharsets.UTF_8))) {
             csv.println("n,ms_con_cota,nodos_con_cota,ms_sin_cota,nodos_sin_cota");
-            System.out.printf("%4s %14s %16s %14s %16s %s%n", "n", "ms con cota", "nodos con cota",
+            System.out.printf(Locale.ROOT, "%4s %14s %16s %14s %16s %s%n", "n", "ms con cota", "nodos con cota",
                     "ms sin cota", "nodos sin cota", "verificación");
             for (int n = N_MIN; n <= N_MAX; n++) {
                 double msC = 0, msS = 0; long nodC = 0, nodS = 0; boolean ok = true;
@@ -41,8 +42,8 @@ public class Benchmark {
                 csv.printf(java.util.Locale.US, "%d,%.3f,%d,%s,%s%n", n, msC / SEMILLAS, nodC / SEMILLAS,
                         conSin ? String.format(java.util.Locale.US, "%.3f", msS / SEMILLAS) : "",
                         conSin ? String.valueOf(nodS / SEMILLAS) : "");
-                System.out.printf("%4d %14.3f %16d %14s %16s %s%n", n, msC / SEMILLAS, nodC / SEMILLAS,
-                        conSin ? String.format("%.3f", msS / SEMILLAS) : "-",
+                System.out.printf(Locale.ROOT, "%4d %14.3f %16d %14s %16s %s%n", n, msC / SEMILLAS, nodC / SEMILLAS,
+                        conSin ? String.format(Locale.ROOT, "%.3f", msS / SEMILLAS) : "-",
                         conSin ? String.valueOf(nodS / SEMILLAS) : "-",
                         conSin ? (ok ? "OK (mismo top-3)" : "DIFERENTE!") : "");
             }

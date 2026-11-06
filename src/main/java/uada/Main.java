@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 
 /**
  * Ejecuta la misión y guarda el log de exploración.
@@ -71,7 +72,7 @@ public class Main {
             mision.resolver();
             double ms = (System.nanoTime() - t0) / 1e6;
 
-            String rep = mision.reporte() + String.format("%n Tiempo de ejecución: %.2f ms%n", ms);
+            String rep = mision.reporte() + String.format(Locale.ROOT, "%n Tiempo de ejecución: %.2f ms%n", ms);
             log.println();
             log.println(rep);
             System.out.println("Mapa: " + nombre + " | lugares=" + mapa.size()
