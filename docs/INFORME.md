@@ -1,12 +1,12 @@
 # TPO Programación III – La misión de Uada
 
-Grupo: Valentín Umbides Álvarez y compañeros · Actualizado: 4 de noviembre de 2026 · Punteo para el grupo: [PUNTEO.md](PUNTEO.md)
+Grupo: Valentín Umbides Álvarez y compañeros · Actualizado: 5 de noviembre de 2026 · Punteo para el grupo: [PUNTEO.md](PUNTEO.md)
 
-La ruta más rápida del mapa de ejemplo tarda **4440 s (74 min)**: A348 \> PASILLO3 \> A201 \> BIBLIO \> LIMA3 \> STARBUCKS \> PATIO \> ASCENSOR \> A613 \> A633 \> ESCALERA \> A348, y llega con 0,40 de batería. El backtracking con poda la confirma explorando 1.289.350 nodos, contra 2.964.165 sin la cota.
+La ruta más rápida del mapa de ejemplo tarda **4440 s (74 min)**: A348 \> PASILLO3 \> A201 \> BIBLIO \> LIMA3 \> STARBUCKS \> PATIO \> ASCENSOR \> A613 \> A633 \> ESCALERA \> A348, y llega con 0,40 de batería. El backtracking con poda la confirma explorando 1.419.140 nodos, contra 3.773.393 sin la cota. En el mapa de la cátedra (`mapa_grande.txt`) las 3 mejores rutas tardan **411 s**: Uada espera 1 s a que abra el Molinete Lima 3.
 
 > **Técnica utilizada.** Según la indicación de la cátedra, la solución usa **solo backtracking con branch & bound**: no usa ningún otro algoritmo (ni Floyd, ni Dijkstra, ni programación dinámica). Las cotas se calculan directamente sobre el grafo.
 >
-> **Aviso sobre las fuentes.** El material cargado de la materia solo menciona el backtracking en la síntesis de *Búsqueda en Profundidad* (recorrido DFS con control de visitados). El detalle de branch & bound (cómo calcular la cota optimista) **no está en ese material**. Lo marcamos con ⚠ donde aparece.
+> **Aviso sobre las fuentes.** El backtracking sigue el esquema de las clases 6a–6d de la materia (árbol de alternativas, estado como lista ordenada (X1, …, Xn), poda de las ramas que no llevan a una solución; N reinas, suma de subconjuntos y partición en mitades). La introducción del curso lista *Branch & Bound (Ramificación y Poda)* como tema y la guía de backtracking lo pide como variante ("aplique ramificación y poda"), pero **no hay una clase con el detalle de cómo calcular la cota**. Lo marcamos con ⚠ donde aparece.
 
 ## Supuestos e interpretación del enunciado
 
@@ -21,10 +21,10 @@ El enunciado no trae el mapa, así que el grupo lo define (sección siguiente). 
 | Patas para arriba: "55% menor"                     | Tiempo 2s, consumo 0,45 × s/60.                                                                                                                                                                                           |
 | Recarga en aulas                                   | (suma de dígitos)/5 al llegar, sin tiempo; tope de **100** (la batería inicial; confirmado). A348 no recarga al cerrar el circuito.                                                                                       |
 | Pasar una única vez por cada lugar                 | Ningún lugar se repite; la única excepción es volver a A348 para terminar.                                                                                                                                                |
-| Ventana de cierre \[t1, t2\]                       | Si el **tiempo de llegada** cae en el intervalo (extremos incluidos), la rama es inválida. Uada no puede esperar.                                                                                                         |
+| Ventana de cierre \[t1, t2\]                       | El lugar está cerrado si el **tiempo de llegada** cae en el intervalo (extremos incluidos). Confirmado por la profesora: **Uada puede esperar**, y esperar gasta tiempo pero no batería. Espera en la puerta y entra 1 s después del cierre (cerrado hasta 240 s → entra a los 241 s). Solo espera lo mínimo; ir más lento sigue siendo otra opción. Un cierre que no termina nunca descarta la rama. Con la opción `sinespera` se puede correr con la regla anterior, en la que un lugar cerrado descarta la rama. |
 | Zona prohibida                                     | Lugar marcado como prohibido: nunca se entra.                                                                                                                                                                             |
 | Única conexión directa por par                     | Grafo **dirigido**: cada arista va de origen a destino, como en el mapa que darán los profesores. El mapa de ejemplo de este informe es no dirigido. Mapa.conectar rechaza conexiones duplicadas.                         |
-| "3 mejores secuencias de recorrido" | Las 3 rutas de menor tiempo total, cada una con una **secuencia de lugares distinta**. Si dos rutas pasan por los mismos lugares y solo cambia el modo de algún tramo, se queda la más rápida. Ante un empate queda la que se encontró primero. |
+| "3 mejores secuencias de recorrido" | Las 3 rutas de menor tiempo total, cada una con una **secuencia de lugares distinta** (confirmado). Si dos rutas pasan por los mismos lugares y solo cambia el modo de algún tramo, se queda la mejor. **Desempate** (pedido por la profesora): a igual tiempo gana la que termina con **más batería**; si también empatan, la que pasa por **menos lugares**. |
 | Ruta truncada (objetivo secundario)                | Entre todos los estados explorados: 1) más obligatorios visitados, 2) menor distancia euclídea (coordenadas x, y) a A348.                                                                                                 |
 
 ## Mapa utilizado
@@ -60,7 +60,7 @@ Conexiones (C = caminando, S = saltando, P = patas para arriba):
 | ESCALERA–PATIO    | 720      | C S P |     | BIBLIO–A201     | 480      | C S P |
 | ESCALERA–OBRA     | 240      | C S P |     | OBRA–BIBLIO     | 150      | C S P |
 
-**El algoritmo no depende de este mapa.** El mapa se lee de un archivo de texto: java -cp out uada.Main mapas/mapa.txt. El día de la defensa se escribe el mapa de los profesores en un .txt y se corre sin tocar código. Se aceptan dos formatos equivalentes (el del grupo y el de mapas/mapa_uade.txt):
+**El algoritmo no depende de este mapa.** El mapa se lee de un archivo de texto: `java -cp target/classes uada.Main mapas/mapa_grande.txt` (después de compilar con `mvn package`; ver el README). El día de la defensa se escribe el mapa de los profesores en un .txt y se corre sin tocar código. El formato es el de los archivos de la cátedra (`CargadorMapa` también acepta una variante con código y tipo de lugar):
 
     INICIO;Aula 348
     GRAFO;DIRIGIDO           (opcional; por defecto DIRIGIDO, o NO_DIRIGIDO)
@@ -78,7 +78,7 @@ Se recorre el grafo en profundidad desde A348, como la búsqueda en profundidad 
 
 - **Decisión en cada nivel:** a qué lugar vecino ir y con qué modo permitido en esa conexión. Un lugar con grado *g* genera hasta 3*g* hijos.
 
-- **Solución:** volver a A348 habiendo visitado todos los obligatorios. Se compara contra un **top-3** ordenado por tiempo.
+- **Solución:** volver a A348 habiendo visitado todos los obligatorios. Se compara contra un **top-3** ordenado por tiempo, después por más batería final y después por menos lugares.
 
 - **Hacer / deshacer:** se marca el lugar como visitado, se suma la recarga y se agrega el movimiento; al volver se revierte todo.
 
@@ -94,11 +94,11 @@ Funciones de factibilidad (podas), en el orden en que se evalúan:
 
 4.  **Batería:** si el movimiento deja la batería en 0 o menos, se descarta.
 
-5.  **Ventana temporal:** si el lugar está cerrado en el tiempo de llegada, se descarta.
+5.  **Ventana temporal:** si el lugar está cerrado en el tiempo de llegada, Uada espera en la puerta y entra 1 s después del cierre. La espera suma tiempo y no gasta batería. Solo se descarta la rama si el cierre no termina nunca, o si se corre con `sinespera`.
 
 6.  ⚠ **Sin camino / batería insuficiente (cota):** a algún lugar que falta no entra ninguna conexión, o aun recargando en todas las aulas pendientes la batería no alcanza para el consumo mínimo que falta.
 
-7.  ⚠ **Cota de tiempo (branch & bound):** tiempo actual + mínimo tiempo que falta ≥ la 3ª mejor ruta encontrada.
+7.  ⚠ **Cota de tiempo (branch & bound):** tiempo actual + mínimo tiempo que falta **\>** la 3ª mejor ruta encontrada. Se usa \> y no ≥ para no descartar rutas que empatan en tiempo y pueden ganar por batería.
 
 **Cómo se calcula "lo mínimo que falta".** A cada obligatorio pendiente todavía hay que **entrar** una vez, y al final hay que entrar a A348. Cada entrada usa una conexión distinta. Entonces lo que falta cuesta, como mínimo, la suma de la **conexión de entrada más barata** de cada uno de esos lugares, tomando el modo más rápido para el tiempo y el de menor consumo para la batería. Esas entradas mínimas se calculan una sola vez al principio, recorriendo las aristas: O(n + m). Es una estimación optimista (supone el mejor modo e ignora ventanas y el resto del recorrido), así que **nunca sobreestima** y la poda no descarta soluciones válidas. Se verificó corriendo con y sin cota y comparando el top-3.
 
@@ -139,18 +139,22 @@ Las cotas 6 y 7 sirven para el objetivo principal, pero pueden cortar ramas úti
                 nodosAnalizados++
                 t2 <- t + m.tiempo(c) ; b2 <- bat - m.consumo(c)
                 si (cierre y b2 < 0) o (no cierre y b2 <= 0): log PODA; continuar
-                si sig.cerradaEn(t2): log PODA; continuar
+                espera <- 0
+                si sig.cerradaEn(t2):                     // obstáculo dinámico
+                    entrada <- fin del cierre + 1         // primer instante abierto
+                    si entrada = infinito o no se permite esperar: log PODA; continuar
+                    espera <- entrada - t2 ; t2 <- entrada   // suma tiempo, no batería
                 b3 <- b2 + (cierre ? 0 : min(recarga(sig), 100 - b2))
                 si conCotas y no cierre:               // BRANCH & BOUND
                     faltaT <- entT[origen] + suma de entT[o] para cada obligatorio pendiente o != sig
                     faltaB <- entB[origen] + suma de entB[o] para cada obligatorio pendiente o != sig
                     si faltaT = infinito: log PODA (sin camino); continuar
                     si b3 + recargasPendientes - recarga(sig) < faltaB: log PODA; continuar
-                    si |mejores| = 3 y t2 + faltaT >= mejores[3].tiempo: log PODA; continuar
-                sino si conCotas y |mejores| = 3 y t2 >= mejores[3].tiempo: log PODA; continuar
-                camino.agregar(actual, sig, m, b3, t2) // HACER
+                    si |mejores| = 3 y t2 + faltaT > mejores[3].tiempo: log PODA; continuar
+                sino si conCotas y |mejores| = 3 y t2 > mejores[3].tiempo: log PODA; continuar
+                camino.agregar(actual, sig, m, b3, espera, t2) // HACER
                 si cierre:
-                    registrarSolucion(copia(camino))   // inserta en top-3 si mejora
+                    registrarSolucion(copia(camino))   // top-3: tiempo, más batería, menos lugares
                 sino:
                     visitado[sig] <- verdadero
                     Backtrack(sig, t2, b3)
@@ -167,7 +171,7 @@ Se calcula con el **método de sustracción** (clase 1b). Cada llamada a Backtra
 
 - reduce el problema en un lugar, porque cada lugar se visita una sola vez: **b = 1**;
 
-- fuera de la recursión hace trabajo O(g · n): por cada candidato recorre los obligatorios pendientes para la cota, y al hallar una solución copia el camino. Eso da **k = 2** en el peor caso.
+- fuera de la recursión hace trabajo O(g · n): por cada candidato recorre los obligatorios pendientes para la cota, y al hallar una solución copia el camino. Eso da **k = 2** en el peor caso. La espera en un lugar cerrado solo recorre las ventanas de ese lugar (una o dos en la práctica), así que no cambia el orden.
 
 **T(n) = 3g · T(n − 1) + O(n²)**, con a = 3g \> 1 y b = 1
 
@@ -245,9 +249,9 @@ La ruta #1 se verificó a mano tramo por tramo (por ejemplo, tramo 1: 300 s salt
 
 ## Escenario imposible: objetivo secundario
 
-Con el Starbucks cerrado todo el día (Escenarios.uadeImposible(), ventana \[0 s, 100.000 s\]) no hay solución, y el algoritmo devuelve la ruta truncada que llegó más cerca: **3 de 4 obligatorios, terminando en PASILLO3, a 20 m en línea recta de A348**.
+Con el Starbucks cerrado por inventario y **sin reapertura** (Escenarios.uadeImposible(), ventana \[0 s, ∞\]) no hay solución: como el cierre no termina nunca, esperar no sirve. Antes el cierre era \[0 s, 100.000 s\], pero desde que Uada puede esperar habría esperado 27 horas y entrado. El algoritmo devuelve la ruta truncada que llegó más cerca: **3 de 4 obligatorios, terminando en PASILLO3, a 20 m en línea recta de A348**.
 
-La fase 1 (con todas las podas) analizó 1.182.395 nodos sin hallar solución; la fase 2 (sin cotas, para el objetivo secundario) analizó 1.267.772 más. Total: 2.450.167 nodos en ~2,6 s.
+La fase 1 (con todas las podas) analizó 1.320.530 nodos sin hallar solución; la fase 2 (sin cotas, para el objetivo secundario) analizó 1.414.266 más. Total: 2.734.796 nodos en ~5,0 s (con el log completo).
 
 | \#  | Origen   | Destino  | Movimiento        | Batería restante | Recarga | Tiempo acumulado |
 |-----|----------|----------|-------------------|------------------|---------|------------------|
@@ -266,17 +270,39 @@ Desde PASILLO3 podría volver a A348, pero esa rama se poda por *vuelta anticipa
 
 ## Prueba con los archivos de la cátedra
 
-Los dos archivos de prueba de la cátedra (20 lugares) se cargan sin cambiar código. La consigna aclara que las aristas son unidireccionales y que no se repite ningún lugar salvo el origen, así que se tratan como **grafos dirigidos**. mapa_grande.txt da 3 rutas de **417,5 s**; mapa_grande_sin_solucion.txt no tiene solución porque ninguna arista vuelve al Aula 348, y devuelve la ruta truncada.
+Los dos archivos de prueba de la cátedra (20 lugares) se cargan sin cambiar código. La consigna aclara que las aristas son unidireccionales y que no se repite ningún lugar salvo el origen, así que se tratan como **grafos dirigidos**. mapa_grande.txt da 3 rutas de **411 s**; mapa_grande_sin_solucion.txt no tiene solución porque ninguna arista vuelve al Aula 348, y devuelve la ruta truncada.
 
-| Mapa                                      | Resultado                                                                      | Nodos analizados | Tiempo |
-|-------------------------------------------|--------------------------------------------------------------------------------|------------------|--------|
-| mapa_grande.txt (20 lugares, 32 aristas)  | 3 rutas de 417,5 s (empatadas)                                                 | 86.574           | ~0,5 s |
-| mapa_grande.txt, sin cota (verificación)  | mismas 3 rutas                                                                 | 12.367.253       | ~16 s  |
-| mapa_grande_sin_solucion.txt (31 aristas) | Sin solución: ruta truncada con 4/4 obligatorios, termina en Aula 613 a 98,5 m | 475.029          | ~1,1 s |
+| Mapa                                            | Resultado                                                                      | Nodos analizados | Tiempo  |
+|-------------------------------------------------|--------------------------------------------------------------------------------|------------------|---------|
+| mapa_grande.txt (20 lugares, 32 aristas)        | 3 rutas de 411 s (empatadas; desempate por batería: 92,67 / 91,47 / 90,67)     | 128.587          | ~0,8 s  |
+| mapa_grande.txt, sin cota (verificación)        | mismas 3 rutas                                                                 | 12.601.408       | ~21 s   |
+| mapa_grande.txt, `sinespera` (regla anterior)   | 3 rutas de 417,5 s                                                             | 91.021           | ~0,6 s  |
+| mapa_grande_sin_solucion.txt (31 aristas)       | Sin solución: ruta truncada con 4/4 obligatorios, termina en Aula 613 a 98,5 m | 484.616          | ~1,4 s  |
+| mapa_grande_sin_solucion.txt, leído no dirigido | 3 rutas de 285 s                                                               | 332.497          | ~1,1 s  |
 
-Ruta \#1 de mapa_grande.txt: Aula 348 \> Pasillo P3 \> Biblioteca \> Aula 210 \> Auditorio \> Aula 118 \> Starbucks \> Molinete Lima 3 \> Aula 613 \> Aula 401 \> Aula 402 \> Aula 348. La batería no es una restricción en este mapa (termina en 91,8): manda el tiempo y las ventanas. Hay más de 3 rutas empatadas en 417,5 s; el algoritmo se queda con las 3 primeras que encuentra.
+(Los tiempos son de `Main`, que además escribe el log completo.)
 
-Ruta truncada de mapa_grande_sin_solucion.txt: Aula 348 \> Pasillo P3 \> Biblioteca \> Aula 501 \> Secretaria \> Aula 210 \> Auditorio \> Patio \> Starbucks \> Molinete Lima 3 \> Laboratorio \> Aula 705 \> Aula 613 (330 s). Visita los 4 obligatorios, pero no puede cerrar el circuito.
+**Por qué 411 s y no 417,5 s.** Lo más rápido llega al Molinete Lima 3 en t = 200 s, pero está cerrado en \[200 s, 240 s\]. Antes, sin poder esperar, había que ir más lento para llegar recién en 247,5 s. Ahora Uada espera en la puerta y entra a los 241 s; desde ahí faltan 170 s como mínimo hasta el Aula 348: 241 + 170 = 411 s. Hay muchas rutas empatadas en 411 s, y el desempate elige las que terminan con más batería: caminan algunos tramos en lugar de saltar (gastan menos) y llegan igual al Molinete a tiempo para entrar a los 241 s.
+
+Ruta \#1 de mapa_grande.txt:
+
+| # | Origen | Destino | Movimiento | Batería restante | Recarga | Espera | Tiempo acumulado |
+|---|---|---|---|---|---|---|---|
+| 1 | Aula 348 | Aula 501 | Saltando | 99,18 | +1,2 | — | 27,5 s |
+| 2 | Aula 501 | Secretaria | Caminando | 98,27 | — | — | 82,5 s |
+| 3 | Secretaria | Aula 210 | Saltando | 97,40 | +0,6 | — | 102,5 s |
+| 4 | Aula 210 | Auditorio | Caminando | 96,73 | — | — | 142,5 s |
+| 5 | Auditorio | Aula 118 | Caminando | 98,07 | +2,0 | — | 182,5 s |
+| 6 | Aula 118 | Starbucks | Saltando | 96,05 | — | — | 210,0 s |
+| 7 | Starbucks | Molinete Lima 3 | Saltando | 93,85 | — | **1,0 s** | 241,0 s |
+| 8 | Molinete Lima 3 | Aula 613 | Saltando | 94,02 | +2,0 | — | 266,0 s |
+| 9 | Aula 613 | Aula 401 | Caminando | 93,85 | +1,0 | — | 336,0 s |
+| 10 | Aula 401 | Aula 402 | Saltando | 93,58 | +1,2 | — | 356,0 s |
+| 11 | Aula 402 | Aula 348 | Caminando | 92,67 | — | — | 411,0 s |
+
+Llega al Molinete justo en t = 240 s (todavía cerrado), espera 1 s y entra. La batería no es una restricción en este mapa: manda el tiempo y las ventanas.
+
+Ruta truncada de mapa_grande_sin_solucion.txt: Aula 348 \> Pasillo P3 \> Biblioteca \> Aula 501 \> Secretaria \> Aula 210 \> Auditorio \> Patio \> Starbucks \> Molinete Lima 3 \> Laboratorio \> Aula 705 \> Aula 613 (330 s). Visita los 4 obligatorios, pero no puede cerrar el circuito: el Aula 613 no tiene aristas de salida y ninguna arista entra al Aula 348. La fase 1 corta en 8 nodos (la cota *sin camino* detecta que no se puede volver al origen) y la fase 2 busca la ruta truncada.
 
 El mapa de los profesores también viene con direcciones, y el programa lee los mapas como dirigidos por defecto. Como dato: leído como no dirigido, el mapa "sin solución" sí tendría 3 rutas de 285 s, así que el sentido de las aristas cambia el resultado.
 
@@ -286,12 +312,14 @@ Cada ejecución escribe `logs/log_<mapa>.txt` con el árbol completo: la sangrí
 
 | Escenario | Nodos analizados | Nodos expandidos | Soluciones | Podas por cota | Tiempo |
 |---|---|---|---|---|---|
-| Base, con poda | 1.289.350 | 297.960 | 196 | 115.121 | ~1,9 s |
-| Base, sin cota (verificación) | 2.964.165 | 732.755 | — | 0 | ~4,1 s |
-| Imposible (fase 1 + fase 2) | 2.450.167 | 540.178 | 0 | 0 | ~2,7 s |
-| Chico (6 lugares, para la defensa) | 207 | 47 | 27 | 24 | < 0,1 s |
+| Base, con poda | 1.419.140 | 330.754 | 212 | 132.794 | ~3,4 s |
+| Base, sin cota (verificación) | 3.773.393 | 936.360 | 67.431 | 0 | ~3,5 s |
+| Imposible (fase 1 + fase 2) | 2.734.796 | 604.410 | 0 | 0 | ~5,0 s |
+| Chico (6 lugares, para la defensa) | 297 | 68 | 33 | 43 | < 0,1 s |
 
-El log base tiene más de 1 millón de líneas, así que para mostrar en la defensa conviene el escenario chico (`java -cp out uada.Main chico`, 264 líneas, en `logs/log_chico.txt`). Comienzo de ese log:
+Los tiempos incluyen escribir el log, que en el mapa base tiene más de 1 millón de líneas; por eso con cota y sin cota tardan parecido aunque sin cota analiza 2,7 veces más nodos. Sin log (como en el benchmark) la diferencia se ve completa.
+
+Para mostrar en la defensa conviene el escenario chico (`java -cp target/classes uada.Main chico`, 354 líneas, en `logs/log_chico.txt`). Comienzo de ese log:
 
 ```
 [#1] RAÍZ: A348 | t=0.0s | bat=100.00 | obligatorias 0/2
@@ -318,21 +346,28 @@ El log base tiene más de 1 millón de líneas, así que para mostrar en la defe
     [#22] PASILLO3 -> A613 (Caminando) t=1200.0s bat=65.00 (+2.0 recarga) | oblig 1/2
       [#23] A613 -> A348  ✘ PODA: vuelta anticipada (faltan 1 obligatorias)
       [#24] A613 -> PASILLO3  ✘ PODA: ya visitada
-      [#25] A613 -> STARBUCKS (Saltando)  ✘ PODA: ventana temporal (llega en t=1950.0s y está cerrada en [1500s, 2100s])
+      [#25] A613 -> STARBUCKS (Saltando) t=2101.0s bat=10.00 (esperó 151.0s: cerrada en [1500s, 2100s]) | oblig 2/2
+        [#26] STARBUCKS -> PASILLO3  ✘ PODA: ya visitada
+        [#27] STARBUCKS -> A613  ✘ PODA: ya visitada
+        [#28] STARBUCKS -> PATIO (Saltando)  ✘ PODA: batería (quedaría -1.00)
+        [#29] STARBUCKS -> PATIO (Caminando)  ✘ PODA: batería insuficiente (necesita >= 6.75 y como mucho tendría 5.00)
+      [#30] A613 -> STARBUCKS (Caminando) t=2700.0s bat=40.00 | oblig 2/2
           ...
-          [#98] A613 -> A348 (Caminando) t=3900.0s bat=3.00  ★ SOLUCIÓN -> entra al top-3 en posición 2
-          ...
-        [#112] A613 -> A348 (Patas para arriba)  ✘ PODA: cota (4200.0s >= 3ra mejor 3900.0s)
-        [#114] A613 -> PASILLO3 (Caminando)  ✘ PODA: batería insuficiente (necesita >= 6.75 y como mucho tendría 6.00)
-          ...
-          [#122] PASILLO3 -> A348 (Caminando) t=3600.0s bat=8.00  ★ SOLUCIÓN -> entra al top-3 en posición 3
+          [#139] A613 -> A348 (Caminando) t=3900.0s bat=3.00  ★ SOLUCIÓN -> entra al top-3 en posición 2
+          [#140] A613 -> A348 (Patas para arriba)  ✘ PODA: cota (5100.0s > 3ra mejor 4801.0s)
 ```
 
-El nodo #18 dice "no mejora el top-3": recorre los mismos lugares que la solución #17 (solo cambia el modo del último tramo) y tarda más, así que no entra como ruta nueva. Desde que el top-3 se llena, la cota descarta toda rama que no pueda bajar del tiempo de la 3ª (nodo #112).
+El nodo #18 dice "no mejora el top-3": recorre los mismos lugares que la solución #17 (solo cambia el modo del último tramo) y es peor, así que no entra como ruta nueva. El nodo #25 muestra un **obstáculo dinámico**: Uada llega saltando al Starbucks en t = 1950 s, cuando está cerrado (\[1500 s, 2100 s\]), espera 151 s y entra en t = 2101 s; la batería no baja por esperar. Desde que el top-3 se llena, la cota descarta toda rama que no pueda bajar del tiempo de la 3ª (nodo #140).
+
+En `logs/log_mapa_grande.txt` se ve lo mismo con el Molinete Lima 3, por ejemplo:
+
+```
+[#5939] Starbucks -> Molinete Lima 3 (Caminando) t=241.0s bat=93.75 (esperó 33.5s: cerrada en [200s, 240s]) | oblig 2/4
+```
 
 ## Complejidad práctica
 
-El tiempo crece exponencialmente, como predice la teoría: con poda, cada lugar extra multiplica los nodos por **~2,5** en promedio (de 214 nodos con n = 5 a 24,6 millones con n = 18, unos 17,4 s). Sin la cota el factor es **~4,9**: con n = 11 tarda 2,5 s contra 24 ms con poda, y analiza 125 veces más nodos.
+El tiempo crece exponencialmente, como predice la teoría: con poda, cada lugar extra multiplica los nodos por **~2,4** en promedio (de 235 nodos con n = 5 a 25,3 millones con n = 18, unos 3,7 s). Sin la cota el factor es **~4,8**: con n = 11 tarda 246 ms contra 1,3 ms con poda, y analiza 147 veces más nodos.
 
 ![Tiempo y nodos analizados según n, con y sin cota, en escala logarítmica](../grafico_complejidad.png)
 
@@ -340,24 +375,24 @@ Mediciones (promedio de 5 mapas aleatorios por tamaño; también en `complejidad
 
 | n | ms con cota | Nodos con cota | ms sin cota | Nodos sin cota |
 |---|---|---|---|---|
-| 5 | 1,452 | 214 | 1,725 | 345 |
-| 6 | 4,227 | 557 | 21,712 | 3.281 |
-| 7 | 9,760 | 1.335 | 67,002 | 10.542 |
-| 8 | 21,293 | 5.522 | 171,690 | 61.996 |
-| 9 | 8,273 | 6.476 | 495,965 | 553.812 |
-| 10 | 20,693 | 31.635 | 1723,804 | 3.045.679 |
-| 11 | 23,762 | 36.821 | 2503,140 | 4.603.899 |
-| 12 | 173,289 | 263.956 | — | — |
-| 13 | 569,096 | 883.156 | — | — |
-| 14 | 613,827 | 965.966 | — | — |
-| 15 | 1055,456 | 1.576.935 | — | — |
-| 16 | 743,118 | 1.034.560 | — | — |
-| 17 | 14917,887 | 22.804.920 | — | — |
-| 18 | 17428,699 | 24.622.745 | — | — |
+| 5 | 0,152 | 235 | 0,275 | 447 |
+| 6 | 0,239 | 600 | 2,055 | 4.074 |
+| 7 | 0,304 | 1.363 | 2,865 | 13.900 |
+| 8 | 1,323 | 5.712 | 9,347 | 78.655 |
+| 9 | 0,419 | 6.833 | 65,810 | 731.139 |
+| 10 | 1,576 | 32.042 | 213,813 | 3.705.821 |
+| 11 | 1,269 | 37.220 | 246,268 | 5.458.071 |
+| 12 | 15,949 | 271.545 | — | — |
+| 13 | 102,915 | 920.241 | — | — |
+| 14 | 101,013 | 805.773 | — | — |
+| 15 | 213,986 | 1.623.254 | — | — |
+| 16 | 143,210 | 1.071.631 | — | — |
+| 17 | 2.925,713 | 24.700.738 | — | — |
+| 18 | 3.669,314 | 25.264.476 | — | — |
 
-Cómo se midió (`uada.Benchmark`): para cada n de 5 a 18 se generan 5 mapas aleatorios (`Escenarios.aleatorio`) con un ciclo que pasa por todos los lugares, aristas extra con probabilidad 0,35, ~50% de lugares obligatorios y una ventana de cierre. Se promedia el tiempo con `System.nanoTime()` después de calentar la JVM. La versión sin cota se corrió hasta n = 11 y en **todos** los casos devolvió el mismo top-3 que la versión con poda.
+Cómo se midió (`uada.Benchmark`): para cada n de 5 a 18 se generan 5 mapas aleatorios (`Escenarios.aleatorio`, con semillas fijas, así que se puede repetir la medición) con un ciclo que pasa por todos los lugares, aristas extra con probabilidad 0,35, ~50% de lugares obligatorios y una ventana de cierre. Se promedia el tiempo con `System.nanoTime()` después de calentar la JVM, sin escribir el log. La versión sin cota se corrió hasta n = 11 y en **todos** los casos devolvió el mismo top-3 (mismas secuencias y tiempos) que la versión con poda. La medición completa tarda unos 40 s: `java -cp target/classes uada.Benchmark`.
 
-En escala logarítmica una exponencial es una recta: eso se ve en ambas curvas. La curva con poda no es pareja (n = 9 y n = 16 bajan) porque la eficacia de la cota depende de cada mapa: cuánto antes aparece una buena solución y cuán ajustada está la batería.
+En escala logarítmica una exponencial es una recta: eso se ve en ambas curvas. La curva con poda no es pareja (n = 9, 14 y 16 bajan) porque la eficacia de la cota depende de cada mapa: cuánto antes aparece una buena solución y cuán ajustada está la batería.
 
 ## Análisis algorítmico comparativo
 
@@ -385,18 +420,35 @@ La misma lógica sirve en cualquier recorrido que pase por puntos obligatorios c
 | Rondas de seguridad o mantenimiento en un edificio | Puntos de control obligatorios, sectores cerrados por horario                                | Mapas chicos (10–20 puntos): se resuelve en menos de un segundo | Si un sector se cierra de improviso, la ruta ya calculada deja de servir  |
 | Robots de rescate                                  | Zonas con derrumbe = prohibidas; ruta truncada = llegar lo más cerca posible                 | El objetivo secundario es justamente lo que se necesita         | No hay tiempo para explorar todo el árbol: hace falta un límite de tiempo |
 
-La limitación de fondo es la complejidad exponencial: con 18 lugares ya tarda unos 17 s. Para mapas grandes, en la práctica se combina con heurísticas (una ruta greedy inicial para que la cota pode desde el principio), un límite de tiempo que devuelva la mejor ruta hallada hasta el momento, o se divide la misión en tramos más cortos.
+La limitación de fondo es la complejidad exponencial: con 18 lugares ya analiza unos 25 millones de nodos (unos 4 s), y cada lugar extra multiplica eso por ~2,4. Para mapas grandes, en la práctica se combina con heurísticas (una ruta greedy inicial para que la cota pode desde el principio), un límite de tiempo que devuelva la mejor ruta hallada hasta el momento, o se divide la misión en tramos más cortos.
+
+## Verificación: tests automáticos
+
+El proyecto es Maven (Java 21) y tiene **60 tests JUnit** que se corren con `mvn test` (unos segundos):
+
+| Clase de test | Qué verifica |
+|---|---|
+| `ModoTest`, `EstacionTest`, `MapaTest` | Tiempo y consumo de cada modo; recarga de las aulas; ventanas cerradas con los extremos incluidos; espera mínima hasta que abre (y cierres encadenados o sin fin); validaciones del grafo |
+| `CargadorMapaTest` | Los dos archivos de la cátedra (20 lugares, 32 y 31 aristas, obligatorios, prohibida, ventanas, que ninguna arista entre al 348 en el mapa sin solución), BOM/CRLF/espacios y errores con número de línea |
+| `MisionUadaTest` | 7 mapas chicos hechos a mano (ida y vuelta, ventana con y sin espera, zona prohibida, vuelta anticipada, sin batería, batería justa en 0, desempate) y los mapas de la cátedra: 411 s con espera, 417,5 s sin espera, Aula 613 a √9700 y 285 s no dirigido. Con y sin cota dan el mismo top-3 |
+| `ValidadorRuta` | Re-simula **cada ruta** que devuelve el algoritmo, paso por paso y sin usar `MisionUada`, y falla si usa una conexión o modo inexistente, entra a una zona prohibida, repite un lugar, entra a un lugar cerrado, espera sin necesidad, se queda sin batería, o si el tiempo, la batería o la recarga informados no coinciden |
+| `SalidaTest` | Una línea de log por nodo analizado, sangría por nivel, espera y podas en el log, truncado del log, reporte con y sin solución, y la línea de comandos. Corre con la PC configurada en español para asegurar que la salida no cambie de formato |
+| `EscenariosTest`, `BenchmarkTest` | El generador de mapas aleatorios es reproducible (misma semilla, mismo mapa) y con cota y sin cota dan el mismo top-3 en 20 mapas aleatorios |
+
+Además se comprobó que los tests detectan errores: al romper a propósito una regla (los extremos de la ventana, la batería al llegar al destino, no repetir lugares, el desempate), al menos un test falla.
 
 ## Conclusiones
 
-- **El backtracking resuelve la misión de forma exacta.** En el mapa de ejemplo, la mejor ruta tarda 4440 s. Corriendo con y sin poda se obtiene el mismo top-3 en todos los casos probados (mapa base, mapa_grande.txt y 35 mapas aleatorios con n ≤ 11).
+- **El backtracking resuelve la misión de forma exacta.** En el mapa de ejemplo, la mejor ruta tarda 4440 s; en el de la cátedra, 411 s. Corriendo con y sin poda se obtiene el mismo top-3 en todos los casos probados (mapa base, mapa chico, mapa_grande.txt y 35 mapas aleatorios con n ≤ 11).
 
-- **La batería cambia la respuesta.** Saltar siempre sería lo más rápido, pero agota la batería. La ruta óptima mezcla saltos y caminatas y llega con 0,40 puntos.
+- **La batería cambia la respuesta.** Saltar siempre sería lo más rápido, pero agota la batería. En el mapa de ejemplo la ruta óptima mezcla saltos y caminatas y llega con 0,40 puntos.
 
-- **Las podas son lo que lo hace usable.** La cota de branch & bound y la poda por batería reducen los nodos analizados unas 2,3 veces en el mapa base (1,3 millones contra 3 millones), unas 140 veces en `mapa_grande.txt` y unas 125 veces con n = 11 en mapas aleatorios. No mejoran el peor caso, que sigue siendo O((3g)ⁿ).
+- **Poder esperar también cambia la respuesta.** En `mapa_grande.txt`, sin poder esperar había que ir más lento para no llegar al Molinete cerrado (417,5 s). Esperando 1 s en la puerta, las 3 mejores rutas bajan a 411 s.
 
-- **La complejidad práctica confirma la teórica.** El crecimiento es exponencial (~2,5 veces más nodos por cada lugar agregado). Hasta unos 16 lugares responde en alrededor de 1 segundo, y con 17 o 18 ya tarda entre 15 y 17 s.
+- **Las podas son lo que lo hace usable.** La cota de branch & bound y la poda por batería reducen los nodos analizados unas 2,7 veces en el mapa base (1,4 millones contra 3,8 millones), unas 100 veces en `mapa_grande.txt` (128 mil contra 12,6 millones) y unas 147 veces con n = 11 en mapas aleatorios. No mejoran el peor caso, que sigue siendo O((3g)ⁿ).
 
-- **Es robusto ante datos nuevos.** El mapa se lee de archivo, dirigido o no, con o sin coordenadas. Si no hay solución, devuelve la ruta truncada en lugar de fallar.
+- **La complejidad práctica confirma la teórica.** El crecimiento es exponencial (~2,4 veces más nodos por cada lugar agregado). Hasta unos 16 lugares responde en menos de un cuarto de segundo, y con 17 o 18 ya tarda entre 3 y 4 s.
 
-- **Supuestos confirmados con la cátedra:** las aristas son unidireccionales, ningún lugar se repite salvo el origen (que es también el destino), la batería tiene tope de 100 y el "aula 633" del enunciado es un error de tipeo por el aula 348.
+- **Es robusto ante datos nuevos.** El mapa se lee de archivo, dirigido o no, con o sin coordenadas. Si no hay solución, devuelve la ruta truncada en lugar de fallar. La salida es igual en cualquier PC, sin importar su configuración regional.
+
+- **Supuestos confirmados con la cátedra:** las aristas son unidireccionales, ningún lugar se repite salvo el origen (que es también el destino), la batería tiene tope de 100, el "aula 633" del enunciado es un error de tipeo por el aula 348, Uada puede esperar a que abra un lugar (gasta tiempo, no batería) y los empates del top-3 se desempatan por batería y después por cantidad de lugares.

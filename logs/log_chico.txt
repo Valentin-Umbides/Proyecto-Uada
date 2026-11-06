@@ -27,205 +27,296 @@ La sangría indica el nivel en el árbol de exploración.
     [#22] PASILLO3 -> A613 (Caminando) t=1200.0s bat=65.00 (+2.0 recarga) | oblig 1/2
       [#23] A613 -> A348  ✘ PODA: vuelta anticipada (faltan 1 obligatorias)
       [#24] A613 -> PASILLO3  ✘ PODA: ya visitada
-      [#25] A613 -> STARBUCKS (Saltando)  ✘ PODA: ventana temporal (llega en t=1950.0s y está cerrada en [1500s, 2100s])
-      [#26] A613 -> STARBUCKS (Caminando) t=2700.0s bat=40.00 | oblig 2/2
-        [#27] STARBUCKS -> PASILLO3  ✘ PODA: ya visitada
-        [#28] STARBUCKS -> A613  ✘ PODA: ya visitada
-        [#29] STARBUCKS -> PATIO (Saltando) t=2850.0s bat=29.00 | oblig 2/2
-          [#30] PATIO -> A348 (Caminando) t=3750.0s bat=14.00  ★ SOLUCIÓN (no mejora el top-3)
-          [#31] PATIO -> A348 (Patas para arriba) t=4650.0s bat=22.25  ★ SOLUCIÓN (no mejora el top-3)
-          [#32] PATIO -> STARBUCKS  ✘ PODA: ya visitada
-          [#33] PATIO -> OBRA  ✘ PODA: zona prohibida
-        [#34] STARBUCKS -> PATIO (Caminando) t=3000.0s bat=35.00 | oblig 2/2
-          [#35] PATIO -> A348 (Caminando) t=3900.0s bat=20.00  ★ SOLUCIÓN (no mejora el top-3)
-          [#36] PATIO -> A348 (Patas para arriba) t=4800.0s bat=28.25  ★ SOLUCIÓN (no mejora el top-3)
-          [#37] PATIO -> STARBUCKS  ✘ PODA: ya visitada
-          [#38] PATIO -> OBRA  ✘ PODA: zona prohibida
-      [#39] A613 -> OBRA  ✘ PODA: zona prohibida
-    [#40] PASILLO3 -> STARBUCKS (Caminando)  ✘ PODA: ventana temporal (llega en t=1500.0s y está cerrada en [1500s, 2100s])
-  [#41] A348 -> PASILLO3 (Caminando) t=600.0s bat=90.00 | oblig 0/2
-    [#42] PASILLO3 -> A348  ✘ PODA: vuelta anticipada (faltan 2 obligatorias)
-    [#43] PASILLO3 -> A613 (Saltando) t=1050.0s bat=59.00 (+2.0 recarga) | oblig 1/2
-      [#44] A613 -> A348  ✘ PODA: vuelta anticipada (faltan 1 obligatorias)
-      [#45] A613 -> PASILLO3  ✘ PODA: ya visitada
-      [#46] A613 -> STARBUCKS (Saltando)  ✘ PODA: ventana temporal (llega en t=1800.0s y está cerrada en [1500s, 2100s])
-      [#47] A613 -> STARBUCKS (Caminando) t=2550.0s bat=34.00 | oblig 2/2
-        [#48] STARBUCKS -> PASILLO3  ✘ PODA: ya visitada
-        [#49] STARBUCKS -> A613  ✘ PODA: ya visitada
-        [#50] STARBUCKS -> PATIO (Saltando) t=2700.0s bat=23.00 | oblig 2/2
-          [#51] PATIO -> A348 (Caminando) t=3600.0s bat=8.00  ★ SOLUCIÓN (no mejora el top-3)
-          [#52] PATIO -> A348 (Patas para arriba) t=4500.0s bat=16.25  ★ SOLUCIÓN (no mejora el top-3)
-          [#53] PATIO -> STARBUCKS  ✘ PODA: ya visitada
-          [#54] PATIO -> OBRA  ✘ PODA: zona prohibida
-        [#55] STARBUCKS -> PATIO (Caminando) t=2850.0s bat=29.00 | oblig 2/2
-          [#56] PATIO -> A348 (Caminando) t=3750.0s bat=14.00  ★ SOLUCIÓN (no mejora el top-3)
-          [#57] PATIO -> A348 (Patas para arriba) t=4650.0s bat=22.25  ★ SOLUCIÓN (no mejora el top-3)
-          [#58] PATIO -> STARBUCKS  ✘ PODA: ya visitada
-          [#59] PATIO -> OBRA  ✘ PODA: zona prohibida
-      [#60] A613 -> OBRA  ✘ PODA: zona prohibida
-    [#61] PASILLO3 -> A613 (Caminando) t=1500.0s bat=77.00 (+2.0 recarga) | oblig 1/2
-      [#62] A613 -> A348  ✘ PODA: vuelta anticipada (faltan 1 obligatorias)
-      [#63] A613 -> PASILLO3  ✘ PODA: ya visitada
-      [#64] A613 -> STARBUCKS (Saltando) t=2250.0s bat=22.00 | oblig 2/2
-        [#65] STARBUCKS -> PASILLO3  ✘ PODA: ya visitada
-        [#66] STARBUCKS -> A613  ✘ PODA: ya visitada
-        [#67] STARBUCKS -> PATIO (Saltando) t=2400.0s bat=11.00 | oblig 2/2
-          [#68] PATIO -> A348 (Caminando)  ✘ PODA: batería (quedaría -4.00)
-          [#69] PATIO -> A348 (Patas para arriba) t=4200.0s bat=4.25  ★ SOLUCIÓN (no mejora el top-3)
-          [#70] PATIO -> STARBUCKS  ✘ PODA: ya visitada
-          [#71] PATIO -> OBRA  ✘ PODA: zona prohibida
-        [#72] STARBUCKS -> PATIO (Caminando) t=2550.0s bat=17.00 | oblig 2/2
-          [#73] PATIO -> A348 (Caminando) t=3450.0s bat=2.00  ★ SOLUCIÓN (no mejora el top-3)
-          [#74] PATIO -> A348 (Patas para arriba) t=4350.0s bat=10.25  ★ SOLUCIÓN (no mejora el top-3)
-          [#75] PATIO -> STARBUCKS  ✘ PODA: ya visitada
-          [#76] PATIO -> OBRA  ✘ PODA: zona prohibida
-      [#77] A613 -> STARBUCKS (Caminando) t=3000.0s bat=52.00 | oblig 2/2
-        [#78] STARBUCKS -> PASILLO3  ✘ PODA: ya visitada
-        [#79] STARBUCKS -> A613  ✘ PODA: ya visitada
-        [#80] STARBUCKS -> PATIO (Saltando) t=3150.0s bat=41.00 | oblig 2/2
-          [#81] PATIO -> A348 (Caminando) t=4050.0s bat=26.00  ★ SOLUCIÓN (no mejora el top-3)
-          [#82] PATIO -> A348 (Patas para arriba) t=4950.0s bat=34.25  ★ SOLUCIÓN (no mejora el top-3)
-          [#83] PATIO -> STARBUCKS  ✘ PODA: ya visitada
-          [#84] PATIO -> OBRA  ✘ PODA: zona prohibida
-        [#85] STARBUCKS -> PATIO (Caminando) t=3300.0s bat=47.00 | oblig 2/2
-          [#86] PATIO -> A348 (Caminando) t=4200.0s bat=32.00  ★ SOLUCIÓN (no mejora el top-3)
-          [#87] PATIO -> A348 (Patas para arriba) t=5100.0s bat=40.25  ★ SOLUCIÓN (no mejora el top-3)
-          [#88] PATIO -> STARBUCKS  ✘ PODA: ya visitada
-          [#89] PATIO -> OBRA  ✘ PODA: zona prohibida
-      [#90] A613 -> OBRA  ✘ PODA: zona prohibida
-    [#91] PASILLO3 -> STARBUCKS (Caminando)  ✘ PODA: ventana temporal (llega en t=1800.0s y está cerrada en [1500s, 2100s])
-  [#92] A348 -> PATIO (Caminando) t=900.0s bat=85.00 | oblig 0/2
-    [#93] PATIO -> A348  ✘ PODA: vuelta anticipada (faltan 2 obligatorias)
-    [#94] PATIO -> STARBUCKS (Saltando) t=1050.0s bat=74.00 | oblig 1/2
-      [#95] STARBUCKS -> PASILLO3 (Caminando) t=2250.0s bat=54.00 | oblig 1/2
-        [#96] PASILLO3 -> A348  ✘ PODA: vuelta anticipada (faltan 1 obligatorias)
-        [#97] PASILLO3 -> A613 (Saltando) t=2700.0s bat=23.00 (+2.0 recarga) | oblig 2/2
-          [#98] A613 -> A348 (Caminando) t=3900.0s bat=3.00  ★ SOLUCIÓN -> entra al top-3 en posición 2
-          [#99] A613 -> A348 (Patas para arriba) t=5100.0s bat=14.00  ★ SOLUCIÓN (no mejora el top-3)
-          [#100] A613 -> PASILLO3  ✘ PODA: ya visitada
-          [#101] A613 -> STARBUCKS  ✘ PODA: ya visitada
-          [#102] A613 -> OBRA  ✘ PODA: zona prohibida
-        [#103] PASILLO3 -> A613 (Caminando) t=3150.0s bat=41.00 (+2.0 recarga) | oblig 2/2
-          [#104] A613 -> A348 (Caminando) t=4350.0s bat=21.00  ★ SOLUCIÓN (no mejora el top-3)
-          [#105] A613 -> A348 (Patas para arriba) t=5550.0s bat=32.00  ★ SOLUCIÓN (no mejora el top-3)
-          [#106] A613 -> PASILLO3  ✘ PODA: ya visitada
-          [#107] A613 -> STARBUCKS  ✘ PODA: ya visitada
-          [#108] A613 -> OBRA  ✘ PODA: zona prohibida
-        [#109] PASILLO3 -> STARBUCKS  ✘ PODA: ya visitada
-      [#110] STARBUCKS -> A613 (Saltando) t=1800.0s bat=21.00 (+2.0 recarga) | oblig 2/2
-        [#111] A613 -> A348 (Caminando) t=3000.0s bat=1.00  ★ SOLUCIÓN -> entra al top-3 en posición 1
-        [#112] A613 -> A348 (Patas para arriba)  ✘ PODA: cota (4200.0s >= 3ra mejor 3900.0s)
-        [#113] A613 -> PASILLO3 (Saltando)  ✘ PODA: batería (quedaría -12.00)
-        [#114] A613 -> PASILLO3 (Caminando)  ✘ PODA: batería insuficiente (necesita >= 6.75 y como mucho tendría 6.00)
-        [#115] A613 -> STARBUCKS  ✘ PODA: ya visitada
-        [#116] A613 -> OBRA  ✘ PODA: zona prohibida
-      [#117] STARBUCKS -> A613 (Caminando) t=2550.0s bat=51.00 (+2.0 recarga) | oblig 2/2
-        [#118] A613 -> A348 (Caminando) t=3750.0s bat=31.00  ★ SOLUCIÓN (no mejora el top-3)
-        [#119] A613 -> A348 (Patas para arriba)  ✘ PODA: cota (4950.0s >= 3ra mejor 3900.0s)
-        [#120] A613 -> PASILLO3 (Saltando) t=3000.0s bat=18.00 | oblig 2/2
-          [#121] PASILLO3 -> A348 (Saltando)  ✘ PODA: batería (quedaría -4.00)
-          [#122] PASILLO3 -> A348 (Caminando) t=3600.0s bat=8.00  ★ SOLUCIÓN -> entra al top-3 en posición 3
-          [#123] PASILLO3 -> A613  ✘ PODA: ya visitada
-          [#124] PASILLO3 -> STARBUCKS  ✘ PODA: ya visitada
-        [#125] A613 -> PASILLO3 (Caminando)  ✘ PODA: cota (cota 3750.0s >= 3ra mejor 3600.0s)
-        [#126] A613 -> STARBUCKS  ✘ PODA: ya visitada
-        [#127] A613 -> OBRA  ✘ PODA: zona prohibida
-      [#128] STARBUCKS -> PATIO  ✘ PODA: ya visitada
-    [#129] PATIO -> STARBUCKS (Caminando) t=1200.0s bat=80.00 | oblig 1/2
-      [#130] STARBUCKS -> PASILLO3 (Caminando) t=2400.0s bat=60.00 | oblig 1/2
-        [#131] PASILLO3 -> A348  ✘ PODA: vuelta anticipada (faltan 1 obligatorias)
-        [#132] PASILLO3 -> A613 (Saltando) t=2850.0s bat=29.00 (+2.0 recarga) | oblig 2/2
-          [#133] A613 -> A348 (Caminando)  ✘ PODA: cota (4050.0s >= 3ra mejor 3600.0s)
-          [#134] A613 -> A348 (Patas para arriba)  ✘ PODA: cota (5250.0s >= 3ra mejor 3600.0s)
-          [#135] A613 -> PASILLO3  ✘ PODA: ya visitada
-          [#136] A613 -> STARBUCKS  ✘ PODA: ya visitada
-          [#137] A613 -> OBRA  ✘ PODA: zona prohibida
-        [#138] PASILLO3 -> A613 (Caminando)  ✘ PODA: cota (cota 3600.0s >= 3ra mejor 3600.0s)
-        [#139] PASILLO3 -> STARBUCKS  ✘ PODA: ya visitada
-      [#140] STARBUCKS -> A613 (Saltando) t=1950.0s bat=27.00 (+2.0 recarga) | oblig 2/2
-        [#141] A613 -> A348 (Caminando) t=3150.0s bat=7.00  ★ SOLUCIÓN (no mejora el top-3)
-        [#142] A613 -> A348 (Patas para arriba)  ✘ PODA: cota (4350.0s >= 3ra mejor 3600.0s)
-        [#143] A613 -> PASILLO3 (Saltando)  ✘ PODA: batería (quedaría -6.00)
-        [#144] A613 -> PASILLO3 (Caminando) t=2850.0s bat=12.00 | oblig 2/2
-          [#145] PASILLO3 -> A348 (Saltando)  ✘ PODA: batería (quedaría -10.00)
-          [#146] PASILLO3 -> A348 (Caminando) t=3450.0s bat=2.00  ★ SOLUCIÓN -> entra al top-3 en posición 3
-          [#147] PASILLO3 -> A613  ✘ PODA: ya visitada
-          [#148] PASILLO3 -> STARBUCKS  ✘ PODA: ya visitada
-        [#149] A613 -> STARBUCKS  ✘ PODA: ya visitada
-        [#150] A613 -> OBRA  ✘ PODA: zona prohibida
-      [#151] STARBUCKS -> A613 (Caminando) t=2700.0s bat=57.00 (+2.0 recarga) | oblig 2/2
-        [#152] A613 -> A348 (Caminando)  ✘ PODA: cota (3900.0s >= 3ra mejor 3450.0s)
-        [#153] A613 -> A348 (Patas para arriba)  ✘ PODA: cota (5100.0s >= 3ra mejor 3450.0s)
-        [#154] A613 -> PASILLO3 (Saltando)  ✘ PODA: cota (cota 3450.0s >= 3ra mejor 3450.0s)
-        [#155] A613 -> PASILLO3 (Caminando)  ✘ PODA: cota (cota 3900.0s >= 3ra mejor 3450.0s)
+      [#25] A613 -> STARBUCKS (Saltando) t=2101.0s bat=10.00 (esperó 151.0s: cerrada en [1500s, 2100s]) | oblig 2/2
+        [#26] STARBUCKS -> PASILLO3  ✘ PODA: ya visitada
+        [#27] STARBUCKS -> A613  ✘ PODA: ya visitada
+        [#28] STARBUCKS -> PATIO (Saltando)  ✘ PODA: batería (quedaría -1.00)
+        [#29] STARBUCKS -> PATIO (Caminando)  ✘ PODA: batería insuficiente (necesita >= 6.75 y como mucho tendría 5.00)
+      [#30] A613 -> STARBUCKS (Caminando) t=2700.0s bat=40.00 | oblig 2/2
+        [#31] STARBUCKS -> PASILLO3  ✘ PODA: ya visitada
+        [#32] STARBUCKS -> A613  ✘ PODA: ya visitada
+        [#33] STARBUCKS -> PATIO (Saltando) t=2850.0s bat=29.00 | oblig 2/2
+          [#34] PATIO -> A348 (Caminando) t=3750.0s bat=14.00  ★ SOLUCIÓN (no mejora el top-3)
+          [#35] PATIO -> A348 (Patas para arriba) t=4650.0s bat=22.25  ★ SOLUCIÓN (no mejora el top-3)
+          [#36] PATIO -> STARBUCKS  ✘ PODA: ya visitada
+          [#37] PATIO -> OBRA  ✘ PODA: zona prohibida
+        [#38] STARBUCKS -> PATIO (Caminando) t=3000.0s bat=35.00 | oblig 2/2
+          [#39] PATIO -> A348 (Caminando) t=3900.0s bat=20.00  ★ SOLUCIÓN (no mejora el top-3)
+          [#40] PATIO -> A348 (Patas para arriba) t=4800.0s bat=28.25  ★ SOLUCIÓN (no mejora el top-3)
+          [#41] PATIO -> STARBUCKS  ✘ PODA: ya visitada
+          [#42] PATIO -> OBRA  ✘ PODA: zona prohibida
+      [#43] A613 -> OBRA  ✘ PODA: zona prohibida
+    [#44] PASILLO3 -> STARBUCKS (Caminando) t=2101.0s bat=58.00 (esperó 601.0s: cerrada en [1500s, 2100s]) | oblig 1/2
+      [#45] STARBUCKS -> PASILLO3  ✘ PODA: ya visitada
+      [#46] STARBUCKS -> A613 (Saltando)  ✘ PODA: batería insuficiente (necesita >= 6.75 y como mucho tendría 5.00)
+      [#47] STARBUCKS -> A613 (Caminando) t=3601.0s bat=35.00 (+2.0 recarga) | oblig 2/2
+        [#48] A613 -> A348 (Caminando) t=4801.0s bat=15.00  ★ SOLUCIÓN -> entra al top-3 en posición 2
+        [#49] A613 -> A348 (Patas para arriba) t=6001.0s bat=26.00  ★ SOLUCIÓN (no mejora el top-3)
+        [#50] A613 -> PASILLO3  ✘ PODA: ya visitada
+        [#51] A613 -> STARBUCKS  ✘ PODA: ya visitada
+        [#52] A613 -> OBRA  ✘ PODA: zona prohibida
+      [#53] STARBUCKS -> PATIO (Saltando) t=2251.0s bat=47.00 | oblig 1/2
+        [#54] PATIO -> A348  ✘ PODA: vuelta anticipada (faltan 1 obligatorias)
+        [#55] PATIO -> STARBUCKS  ✘ PODA: ya visitada
+        [#56] PATIO -> OBRA  ✘ PODA: zona prohibida
+      [#57] STARBUCKS -> PATIO (Caminando) t=2401.0s bat=53.00 | oblig 1/2
+        [#58] PATIO -> A348  ✘ PODA: vuelta anticipada (faltan 1 obligatorias)
+        [#59] PATIO -> STARBUCKS  ✘ PODA: ya visitada
+        [#60] PATIO -> OBRA  ✘ PODA: zona prohibida
+  [#61] A348 -> PASILLO3 (Caminando) t=600.0s bat=90.00 | oblig 0/2
+    [#62] PASILLO3 -> A348  ✘ PODA: vuelta anticipada (faltan 2 obligatorias)
+    [#63] PASILLO3 -> A613 (Saltando) t=1050.0s bat=59.00 (+2.0 recarga) | oblig 1/2
+      [#64] A613 -> A348  ✘ PODA: vuelta anticipada (faltan 1 obligatorias)
+      [#65] A613 -> PASILLO3  ✘ PODA: ya visitada
+      [#66] A613 -> STARBUCKS (Saltando)  ✘ PODA: batería insuficiente (necesita >= 6.75 y como mucho tendría 4.00)
+      [#67] A613 -> STARBUCKS (Caminando) t=2550.0s bat=34.00 | oblig 2/2
+        [#68] STARBUCKS -> PASILLO3  ✘ PODA: ya visitada
+        [#69] STARBUCKS -> A613  ✘ PODA: ya visitada
+        [#70] STARBUCKS -> PATIO (Saltando) t=2700.0s bat=23.00 | oblig 2/2
+          [#71] PATIO -> A348 (Caminando) t=3600.0s bat=8.00  ★ SOLUCIÓN (no mejora el top-3)
+          [#72] PATIO -> A348 (Patas para arriba) t=4500.0s bat=16.25  ★ SOLUCIÓN (no mejora el top-3)
+          [#73] PATIO -> STARBUCKS  ✘ PODA: ya visitada
+          [#74] PATIO -> OBRA  ✘ PODA: zona prohibida
+        [#75] STARBUCKS -> PATIO (Caminando) t=2850.0s bat=29.00 | oblig 2/2
+          [#76] PATIO -> A348 (Caminando) t=3750.0s bat=14.00  ★ SOLUCIÓN (no mejora el top-3)
+          [#77] PATIO -> A348 (Patas para arriba) t=4650.0s bat=22.25  ★ SOLUCIÓN (no mejora el top-3)
+          [#78] PATIO -> STARBUCKS  ✘ PODA: ya visitada
+          [#79] PATIO -> OBRA  ✘ PODA: zona prohibida
+      [#80] A613 -> OBRA  ✘ PODA: zona prohibida
+    [#81] PASILLO3 -> A613 (Caminando) t=1500.0s bat=77.00 (+2.0 recarga) | oblig 1/2
+      [#82] A613 -> A348  ✘ PODA: vuelta anticipada (faltan 1 obligatorias)
+      [#83] A613 -> PASILLO3  ✘ PODA: ya visitada
+      [#84] A613 -> STARBUCKS (Saltando) t=2250.0s bat=22.00 | oblig 2/2
+        [#85] STARBUCKS -> PASILLO3  ✘ PODA: ya visitada
+        [#86] STARBUCKS -> A613  ✘ PODA: ya visitada
+        [#87] STARBUCKS -> PATIO (Saltando) t=2400.0s bat=11.00 | oblig 2/2
+          [#88] PATIO -> A348 (Caminando)  ✘ PODA: batería (quedaría -4.00)
+          [#89] PATIO -> A348 (Patas para arriba) t=4200.0s bat=4.25  ★ SOLUCIÓN (no mejora el top-3)
+          [#90] PATIO -> STARBUCKS  ✘ PODA: ya visitada
+          [#91] PATIO -> OBRA  ✘ PODA: zona prohibida
+        [#92] STARBUCKS -> PATIO (Caminando) t=2550.0s bat=17.00 | oblig 2/2
+          [#93] PATIO -> A348 (Caminando) t=3450.0s bat=2.00  ★ SOLUCIÓN (no mejora el top-3)
+          [#94] PATIO -> A348 (Patas para arriba) t=4350.0s bat=10.25  ★ SOLUCIÓN (no mejora el top-3)
+          [#95] PATIO -> STARBUCKS  ✘ PODA: ya visitada
+          [#96] PATIO -> OBRA  ✘ PODA: zona prohibida
+      [#97] A613 -> STARBUCKS (Caminando) t=3000.0s bat=52.00 | oblig 2/2
+        [#98] STARBUCKS -> PASILLO3  ✘ PODA: ya visitada
+        [#99] STARBUCKS -> A613  ✘ PODA: ya visitada
+        [#100] STARBUCKS -> PATIO (Saltando) t=3150.0s bat=41.00 | oblig 2/2
+          [#101] PATIO -> A348 (Caminando) t=4050.0s bat=26.00  ★ SOLUCIÓN (no mejora el top-3)
+          [#102] PATIO -> A348 (Patas para arriba) t=4950.0s bat=34.25  ★ SOLUCIÓN (no mejora el top-3)
+          [#103] PATIO -> STARBUCKS  ✘ PODA: ya visitada
+          [#104] PATIO -> OBRA  ✘ PODA: zona prohibida
+        [#105] STARBUCKS -> PATIO (Caminando) t=3300.0s bat=47.00 | oblig 2/2
+          [#106] PATIO -> A348 (Caminando) t=4200.0s bat=32.00  ★ SOLUCIÓN (no mejora el top-3)
+          [#107] PATIO -> A348 (Patas para arriba) t=5100.0s bat=40.25  ★ SOLUCIÓN (no mejora el top-3)
+          [#108] PATIO -> STARBUCKS  ✘ PODA: ya visitada
+          [#109] PATIO -> OBRA  ✘ PODA: zona prohibida
+      [#110] A613 -> OBRA  ✘ PODA: zona prohibida
+    [#111] PASILLO3 -> STARBUCKS (Caminando) t=2101.0s bat=70.00 (esperó 301.0s: cerrada en [1500s, 2100s]) | oblig 1/2
+      [#112] STARBUCKS -> PASILLO3  ✘ PODA: ya visitada
+      [#113] STARBUCKS -> A613 (Saltando) t=2851.0s bat=17.00 (+2.0 recarga) | oblig 2/2
+        [#114] A613 -> A348 (Caminando)  ✘ PODA: batería (quedaría -3.00)
+        [#115] A613 -> A348 (Patas para arriba) t=5251.0s bat=8.00  ★ SOLUCIÓN (no mejora el top-3)
+        [#116] A613 -> PASILLO3  ✘ PODA: ya visitada
+        [#117] A613 -> STARBUCKS  ✘ PODA: ya visitada
+        [#118] A613 -> OBRA  ✘ PODA: zona prohibida
+      [#119] STARBUCKS -> A613 (Caminando) t=3601.0s bat=47.00 (+2.0 recarga) | oblig 2/2
+        [#120] A613 -> A348 (Caminando) t=4801.0s bat=27.00  ★ SOLUCIÓN -> entra al top-3 en posición 2
+        [#121] A613 -> A348 (Patas para arriba) t=6001.0s bat=38.00  ★ SOLUCIÓN (no mejora el top-3)
+        [#122] A613 -> PASILLO3  ✘ PODA: ya visitada
+        [#123] A613 -> STARBUCKS  ✘ PODA: ya visitada
+        [#124] A613 -> OBRA  ✘ PODA: zona prohibida
+      [#125] STARBUCKS -> PATIO (Saltando) t=2251.0s bat=59.00 | oblig 1/2
+        [#126] PATIO -> A348  ✘ PODA: vuelta anticipada (faltan 1 obligatorias)
+        [#127] PATIO -> STARBUCKS  ✘ PODA: ya visitada
+        [#128] PATIO -> OBRA  ✘ PODA: zona prohibida
+      [#129] STARBUCKS -> PATIO (Caminando) t=2401.0s bat=65.00 | oblig 1/2
+        [#130] PATIO -> A348  ✘ PODA: vuelta anticipada (faltan 1 obligatorias)
+        [#131] PATIO -> STARBUCKS  ✘ PODA: ya visitada
+        [#132] PATIO -> OBRA  ✘ PODA: zona prohibida
+  [#133] A348 -> PATIO (Caminando) t=900.0s bat=85.00 | oblig 0/2
+    [#134] PATIO -> A348  ✘ PODA: vuelta anticipada (faltan 2 obligatorias)
+    [#135] PATIO -> STARBUCKS (Saltando) t=1050.0s bat=74.00 | oblig 1/2
+      [#136] STARBUCKS -> PASILLO3 (Caminando) t=2250.0s bat=54.00 | oblig 1/2
+        [#137] PASILLO3 -> A348  ✘ PODA: vuelta anticipada (faltan 1 obligatorias)
+        [#138] PASILLO3 -> A613 (Saltando) t=2700.0s bat=23.00 (+2.0 recarga) | oblig 2/2
+          [#139] A613 -> A348 (Caminando) t=3900.0s bat=3.00  ★ SOLUCIÓN -> entra al top-3 en posición 2
+          [#140] A613 -> A348 (Patas para arriba)  ✘ PODA: cota (5100.0s > 3ra mejor 4801.0s)
+          [#141] A613 -> PASILLO3  ✘ PODA: ya visitada
+          [#142] A613 -> STARBUCKS  ✘ PODA: ya visitada
+          [#143] A613 -> OBRA  ✘ PODA: zona prohibida
+        [#144] PASILLO3 -> A613 (Caminando) t=3150.0s bat=41.00 (+2.0 recarga) | oblig 2/2
+          [#145] A613 -> A348 (Caminando) t=4350.0s bat=21.00  ★ SOLUCIÓN (no mejora el top-3)
+          [#146] A613 -> A348 (Patas para arriba)  ✘ PODA: cota (5550.0s > 3ra mejor 4801.0s)
+          [#147] A613 -> PASILLO3  ✘ PODA: ya visitada
+          [#148] A613 -> STARBUCKS  ✘ PODA: ya visitada
+          [#149] A613 -> OBRA  ✘ PODA: zona prohibida
+        [#150] PASILLO3 -> STARBUCKS  ✘ PODA: ya visitada
+      [#151] STARBUCKS -> A613 (Saltando) t=1800.0s bat=21.00 (+2.0 recarga) | oblig 2/2
+        [#152] A613 -> A348 (Caminando) t=3000.0s bat=1.00  ★ SOLUCIÓN -> entra al top-3 en posición 1
+        [#153] A613 -> A348 (Patas para arriba)  ✘ PODA: cota (4200.0s > 3ra mejor 3900.0s)
+        [#154] A613 -> PASILLO3 (Saltando)  ✘ PODA: batería (quedaría -12.00)
+        [#155] A613 -> PASILLO3 (Caminando)  ✘ PODA: batería insuficiente (necesita >= 6.75 y como mucho tendría 6.00)
         [#156] A613 -> STARBUCKS  ✘ PODA: ya visitada
         [#157] A613 -> OBRA  ✘ PODA: zona prohibida
-      [#158] STARBUCKS -> PATIO  ✘ PODA: ya visitada
-    [#159] PATIO -> OBRA  ✘ PODA: zona prohibida
-  [#160] A348 -> PATIO (Patas para arriba) t=1800.0s bat=93.25 | oblig 0/2
-    [#161] PATIO -> A348  ✘ PODA: vuelta anticipada (faltan 2 obligatorias)
-    [#162] PATIO -> STARBUCKS (Saltando)  ✘ PODA: ventana temporal (llega en t=1950.0s y está cerrada en [1500s, 2100s])
-    [#163] PATIO -> STARBUCKS (Caminando)  ✘ PODA: ventana temporal (llega en t=2100.0s y está cerrada en [1500s, 2100s])
-    [#164] PATIO -> OBRA  ✘ PODA: zona prohibida
-  [#165] A348 -> A613 (Caminando) t=1200.0s bat=82.00 (+2.0 recarga) | oblig 1/2
-    [#166] A613 -> A348  ✘ PODA: vuelta anticipada (faltan 1 obligatorias)
-    [#167] A613 -> PASILLO3 (Saltando) t=1650.0s bat=49.00 | oblig 1/2
-      [#168] PASILLO3 -> A348  ✘ PODA: vuelta anticipada (faltan 1 obligatorias)
-      [#169] PASILLO3 -> A613  ✘ PODA: ya visitada
-      [#170] PASILLO3 -> STARBUCKS (Caminando) t=2850.0s bat=29.00 | oblig 2/2
-        [#171] STARBUCKS -> PASILLO3  ✘ PODA: ya visitada
-        [#172] STARBUCKS -> A613  ✘ PODA: ya visitada
-        [#173] STARBUCKS -> PATIO (Saltando) t=3000.0s bat=18.00 | oblig 2/2
-          [#174] PATIO -> A348 (Caminando)  ✘ PODA: cota (3900.0s >= 3ra mejor 3450.0s)
-          [#175] PATIO -> A348 (Patas para arriba)  ✘ PODA: cota (4800.0s >= 3ra mejor 3450.0s)
-          [#176] PATIO -> STARBUCKS  ✘ PODA: ya visitada
-          [#177] PATIO -> OBRA  ✘ PODA: zona prohibida
-        [#178] STARBUCKS -> PATIO (Caminando)  ✘ PODA: cota (cota 3450.0s >= 3ra mejor 3450.0s)
-    [#179] A613 -> PASILLO3 (Caminando) t=2100.0s bat=67.00 | oblig 1/2
-      [#180] PASILLO3 -> A348  ✘ PODA: vuelta anticipada (faltan 1 obligatorias)
-      [#181] PASILLO3 -> A613  ✘ PODA: ya visitada
-      [#182] PASILLO3 -> STARBUCKS (Caminando)  ✘ PODA: cota (cota 3600.0s >= 3ra mejor 3450.0s)
-    [#183] A613 -> STARBUCKS (Saltando)  ✘ PODA: ventana temporal (llega en t=1950.0s y está cerrada en [1500s, 2100s])
-    [#184] A613 -> STARBUCKS (Caminando) t=2700.0s bat=57.00 | oblig 2/2
-      [#185] STARBUCKS -> PASILLO3 (Caminando)  ✘ PODA: cota (cota 4200.0s >= 3ra mejor 3450.0s)
-      [#186] STARBUCKS -> A613  ✘ PODA: ya visitada
-      [#187] STARBUCKS -> PATIO (Saltando) t=2850.0s bat=46.00 | oblig 2/2
-        [#188] PATIO -> A348 (Caminando)  ✘ PODA: cota (3750.0s >= 3ra mejor 3450.0s)
-        [#189] PATIO -> A348 (Patas para arriba)  ✘ PODA: cota (4650.0s >= 3ra mejor 3450.0s)
-        [#190] PATIO -> STARBUCKS  ✘ PODA: ya visitada
-        [#191] PATIO -> OBRA  ✘ PODA: zona prohibida
-      [#192] STARBUCKS -> PATIO (Caminando) t=3000.0s bat=52.00 | oblig 2/2
-        [#193] PATIO -> A348 (Caminando)  ✘ PODA: cota (3900.0s >= 3ra mejor 3450.0s)
-        [#194] PATIO -> A348 (Patas para arriba)  ✘ PODA: cota (4800.0s >= 3ra mejor 3450.0s)
-        [#195] PATIO -> STARBUCKS  ✘ PODA: ya visitada
-        [#196] PATIO -> OBRA  ✘ PODA: zona prohibida
-    [#197] A613 -> OBRA  ✘ PODA: zona prohibida
-  [#198] A348 -> A613 (Patas para arriba) t=2400.0s bat=93.00 (+2.0 recarga) | oblig 1/2
-    [#199] A613 -> A348  ✘ PODA: vuelta anticipada (faltan 1 obligatorias)
-    [#200] A613 -> PASILLO3 (Saltando) t=2850.0s bat=60.00 | oblig 1/2
-      [#201] PASILLO3 -> A348  ✘ PODA: vuelta anticipada (faltan 1 obligatorias)
-      [#202] PASILLO3 -> A613  ✘ PODA: ya visitada
-      [#203] PASILLO3 -> STARBUCKS (Caminando)  ✘ PODA: cota (cota 4350.0s >= 3ra mejor 3450.0s)
-    [#204] A613 -> PASILLO3 (Caminando)  ✘ PODA: cota (cota 3750.0s >= 3ra mejor 3450.0s)
-    [#205] A613 -> STARBUCKS (Saltando)  ✘ PODA: cota (cota 3450.0s >= 3ra mejor 3450.0s)
-    [#206] A613 -> STARBUCKS (Caminando)  ✘ PODA: cota (cota 4200.0s >= 3ra mejor 3450.0s)
-    [#207] A613 -> OBRA  ✘ PODA: zona prohibida
+      [#158] STARBUCKS -> A613 (Caminando) t=2550.0s bat=51.00 (+2.0 recarga) | oblig 2/2
+        [#159] A613 -> A348 (Caminando) t=3750.0s bat=31.00  ★ SOLUCIÓN (no mejora el top-3)
+        [#160] A613 -> A348 (Patas para arriba)  ✘ PODA: cota (4950.0s > 3ra mejor 3900.0s)
+        [#161] A613 -> PASILLO3 (Saltando) t=3000.0s bat=18.00 | oblig 2/2
+          [#162] PASILLO3 -> A348 (Saltando)  ✘ PODA: batería (quedaría -4.00)
+          [#163] PASILLO3 -> A348 (Caminando) t=3600.0s bat=8.00  ★ SOLUCIÓN -> entra al top-3 en posición 3
+          [#164] PASILLO3 -> A613  ✘ PODA: ya visitada
+          [#165] PASILLO3 -> STARBUCKS  ✘ PODA: ya visitada
+        [#166] A613 -> PASILLO3 (Caminando)  ✘ PODA: cota (cota 3750.0s > 3ra mejor 3600.0s)
+        [#167] A613 -> STARBUCKS  ✘ PODA: ya visitada
+        [#168] A613 -> OBRA  ✘ PODA: zona prohibida
+      [#169] STARBUCKS -> PATIO  ✘ PODA: ya visitada
+    [#170] PATIO -> STARBUCKS (Caminando) t=1200.0s bat=80.00 | oblig 1/2
+      [#171] STARBUCKS -> PASILLO3 (Caminando) t=2400.0s bat=60.00 | oblig 1/2
+        [#172] PASILLO3 -> A348  ✘ PODA: vuelta anticipada (faltan 1 obligatorias)
+        [#173] PASILLO3 -> A613 (Saltando) t=2850.0s bat=29.00 (+2.0 recarga) | oblig 2/2
+          [#174] A613 -> A348 (Caminando)  ✘ PODA: cota (4050.0s > 3ra mejor 3600.0s)
+          [#175] A613 -> A348 (Patas para arriba)  ✘ PODA: cota (5250.0s > 3ra mejor 3600.0s)
+          [#176] A613 -> PASILLO3  ✘ PODA: ya visitada
+          [#177] A613 -> STARBUCKS  ✘ PODA: ya visitada
+          [#178] A613 -> OBRA  ✘ PODA: zona prohibida
+        [#179] PASILLO3 -> A613 (Caminando) t=3300.0s bat=47.00 (+2.0 recarga) | oblig 2/2
+          [#180] A613 -> A348 (Caminando)  ✘ PODA: cota (4500.0s > 3ra mejor 3600.0s)
+          [#181] A613 -> A348 (Patas para arriba)  ✘ PODA: cota (5700.0s > 3ra mejor 3600.0s)
+          [#182] A613 -> PASILLO3  ✘ PODA: ya visitada
+          [#183] A613 -> STARBUCKS  ✘ PODA: ya visitada
+          [#184] A613 -> OBRA  ✘ PODA: zona prohibida
+        [#185] PASILLO3 -> STARBUCKS  ✘ PODA: ya visitada
+      [#186] STARBUCKS -> A613 (Saltando) t=1950.0s bat=27.00 (+2.0 recarga) | oblig 2/2
+        [#187] A613 -> A348 (Caminando) t=3150.0s bat=7.00  ★ SOLUCIÓN (no mejora el top-3)
+        [#188] A613 -> A348 (Patas para arriba)  ✘ PODA: cota (4350.0s > 3ra mejor 3600.0s)
+        [#189] A613 -> PASILLO3 (Saltando)  ✘ PODA: batería (quedaría -6.00)
+        [#190] A613 -> PASILLO3 (Caminando) t=2850.0s bat=12.00 | oblig 2/2
+          [#191] PASILLO3 -> A348 (Saltando)  ✘ PODA: batería (quedaría -10.00)
+          [#192] PASILLO3 -> A348 (Caminando) t=3450.0s bat=2.00  ★ SOLUCIÓN -> entra al top-3 en posición 3
+          [#193] PASILLO3 -> A613  ✘ PODA: ya visitada
+          [#194] PASILLO3 -> STARBUCKS  ✘ PODA: ya visitada
+        [#195] A613 -> STARBUCKS  ✘ PODA: ya visitada
+        [#196] A613 -> OBRA  ✘ PODA: zona prohibida
+      [#197] STARBUCKS -> A613 (Caminando) t=2700.0s bat=57.00 (+2.0 recarga) | oblig 2/2
+        [#198] A613 -> A348 (Caminando)  ✘ PODA: cota (3900.0s > 3ra mejor 3450.0s)
+        [#199] A613 -> A348 (Patas para arriba)  ✘ PODA: cota (5100.0s > 3ra mejor 3450.0s)
+        [#200] A613 -> PASILLO3 (Saltando) t=3150.0s bat=24.00 | oblig 2/2
+          [#201] PASILLO3 -> A348 (Saltando) t=3450.0s bat=2.00  ★ SOLUCIÓN (no mejora el top-3)
+          [#202] PASILLO3 -> A348 (Caminando)  ✘ PODA: cota (3750.0s > 3ra mejor 3450.0s)
+          [#203] PASILLO3 -> A613  ✘ PODA: ya visitada
+          [#204] PASILLO3 -> STARBUCKS  ✘ PODA: ya visitada
+        [#205] A613 -> PASILLO3 (Caminando)  ✘ PODA: cota (cota 3900.0s > 3ra mejor 3450.0s)
+        [#206] A613 -> STARBUCKS  ✘ PODA: ya visitada
+        [#207] A613 -> OBRA  ✘ PODA: zona prohibida
+      [#208] STARBUCKS -> PATIO  ✘ PODA: ya visitada
+    [#209] PATIO -> OBRA  ✘ PODA: zona prohibida
+  [#210] A348 -> PATIO (Patas para arriba) t=1800.0s bat=93.25 | oblig 0/2
+    [#211] PATIO -> A348  ✘ PODA: vuelta anticipada (faltan 2 obligatorias)
+    [#212] PATIO -> STARBUCKS (Saltando) t=2101.0s bat=82.25 (esperó 151.0s: cerrada en [1500s, 2100s]) | oblig 1/2
+      [#213] STARBUCKS -> PASILLO3 (Caminando)  ✘ PODA: cota (cota 4051.0s > 3ra mejor 3450.0s)
+      [#214] STARBUCKS -> A613 (Saltando) t=2851.0s bat=29.25 (+2.0 recarga) | oblig 2/2
+        [#215] A613 -> A348 (Caminando)  ✘ PODA: cota (4051.0s > 3ra mejor 3450.0s)
+        [#216] A613 -> A348 (Patas para arriba)  ✘ PODA: cota (5251.0s > 3ra mejor 3450.0s)
+        [#217] A613 -> PASILLO3 (Saltando)  ✘ PODA: batería (quedaría -3.75)
+        [#218] A613 -> PASILLO3 (Caminando)  ✘ PODA: cota (cota 4051.0s > 3ra mejor 3450.0s)
+        [#219] A613 -> STARBUCKS  ✘ PODA: ya visitada
+        [#220] A613 -> OBRA  ✘ PODA: zona prohibida
+      [#221] STARBUCKS -> A613 (Caminando)  ✘ PODA: cota (cota 3901.0s > 3ra mejor 3450.0s)
+      [#222] STARBUCKS -> PATIO  ✘ PODA: ya visitada
+    [#223] PATIO -> STARBUCKS (Caminando) t=2101.0s bat=88.25 (esperó 1.0s: cerrada en [1500s, 2100s]) | oblig 1/2
+      [#224] STARBUCKS -> PASILLO3 (Caminando)  ✘ PODA: cota (cota 4051.0s > 3ra mejor 3450.0s)
+      [#225] STARBUCKS -> A613 (Saltando) t=2851.0s bat=35.25 (+2.0 recarga) | oblig 2/2
+        [#226] A613 -> A348 (Caminando)  ✘ PODA: cota (4051.0s > 3ra mejor 3450.0s)
+        [#227] A613 -> A348 (Patas para arriba)  ✘ PODA: cota (5251.0s > 3ra mejor 3450.0s)
+        [#228] A613 -> PASILLO3 (Saltando)  ✘ PODA: batería insuficiente (necesita >= 6.75 y como mucho tendría 2.25)
+        [#229] A613 -> PASILLO3 (Caminando)  ✘ PODA: cota (cota 4051.0s > 3ra mejor 3450.0s)
+        [#230] A613 -> STARBUCKS  ✘ PODA: ya visitada
+        [#231] A613 -> OBRA  ✘ PODA: zona prohibida
+      [#232] STARBUCKS -> A613 (Caminando)  ✘ PODA: cota (cota 3901.0s > 3ra mejor 3450.0s)
+      [#233] STARBUCKS -> PATIO  ✘ PODA: ya visitada
+    [#234] PATIO -> OBRA  ✘ PODA: zona prohibida
+  [#235] A348 -> A613 (Caminando) t=1200.0s bat=82.00 (+2.0 recarga) | oblig 1/2
+    [#236] A613 -> A348  ✘ PODA: vuelta anticipada (faltan 1 obligatorias)
+    [#237] A613 -> PASILLO3 (Saltando) t=1650.0s bat=49.00 | oblig 1/2
+      [#238] PASILLO3 -> A348  ✘ PODA: vuelta anticipada (faltan 1 obligatorias)
+      [#239] PASILLO3 -> A613  ✘ PODA: ya visitada
+      [#240] PASILLO3 -> STARBUCKS (Caminando) t=2850.0s bat=29.00 | oblig 2/2
+        [#241] STARBUCKS -> PASILLO3  ✘ PODA: ya visitada
+        [#242] STARBUCKS -> A613  ✘ PODA: ya visitada
+        [#243] STARBUCKS -> PATIO (Saltando) t=3000.0s bat=18.00 | oblig 2/2
+          [#244] PATIO -> A348 (Caminando)  ✘ PODA: cota (3900.0s > 3ra mejor 3450.0s)
+          [#245] PATIO -> A348 (Patas para arriba)  ✘ PODA: cota (4800.0s > 3ra mejor 3450.0s)
+          [#246] PATIO -> STARBUCKS  ✘ PODA: ya visitada
+          [#247] PATIO -> OBRA  ✘ PODA: zona prohibida
+        [#248] STARBUCKS -> PATIO (Caminando) t=3150.0s bat=24.00 | oblig 2/2
+          [#249] PATIO -> A348 (Caminando)  ✘ PODA: cota (4050.0s > 3ra mejor 3450.0s)
+          [#250] PATIO -> A348 (Patas para arriba)  ✘ PODA: cota (4950.0s > 3ra mejor 3450.0s)
+          [#251] PATIO -> STARBUCKS  ✘ PODA: ya visitada
+          [#252] PATIO -> OBRA  ✘ PODA: zona prohibida
+    [#253] A613 -> PASILLO3 (Caminando) t=2100.0s bat=67.00 | oblig 1/2
+      [#254] PASILLO3 -> A348  ✘ PODA: vuelta anticipada (faltan 1 obligatorias)
+      [#255] PASILLO3 -> A613  ✘ PODA: ya visitada
+      [#256] PASILLO3 -> STARBUCKS (Caminando)  ✘ PODA: cota (cota 3600.0s > 3ra mejor 3450.0s)
+    [#257] A613 -> STARBUCKS (Saltando) t=2101.0s bat=27.00 (esperó 151.0s: cerrada en [1500s, 2100s]) | oblig 2/2
+      [#258] STARBUCKS -> PASILLO3 (Caminando)  ✘ PODA: cota (cota 3601.0s > 3ra mejor 3450.0s)
+      [#259] STARBUCKS -> A613  ✘ PODA: ya visitada
+      [#260] STARBUCKS -> PATIO (Saltando) t=2251.0s bat=16.00 | oblig 2/2
+        [#261] PATIO -> A348 (Caminando) t=3151.0s bat=1.00  ★ SOLUCIÓN -> entra al top-3 en posición 2
+        [#262] PATIO -> A348 (Patas para arriba)  ✘ PODA: cota (4051.0s > 3ra mejor 3450.0s)
+        [#263] PATIO -> STARBUCKS  ✘ PODA: ya visitada
+        [#264] PATIO -> OBRA  ✘ PODA: zona prohibida
+      [#265] STARBUCKS -> PATIO (Caminando) t=2401.0s bat=22.00 | oblig 2/2
+        [#266] PATIO -> A348 (Caminando) t=3301.0s bat=7.00  ★ SOLUCIÓN (no mejora el top-3)
+        [#267] PATIO -> A348 (Patas para arriba)  ✘ PODA: cota (4201.0s > 3ra mejor 3450.0s)
+        [#268] PATIO -> STARBUCKS  ✘ PODA: ya visitada
+        [#269] PATIO -> OBRA  ✘ PODA: zona prohibida
+    [#270] A613 -> STARBUCKS (Caminando) t=2700.0s bat=57.00 | oblig 2/2
+      [#271] STARBUCKS -> PASILLO3 (Caminando)  ✘ PODA: cota (cota 4200.0s > 3ra mejor 3450.0s)
+      [#272] STARBUCKS -> A613  ✘ PODA: ya visitada
+      [#273] STARBUCKS -> PATIO (Saltando) t=2850.0s bat=46.00 | oblig 2/2
+        [#274] PATIO -> A348 (Caminando)  ✘ PODA: cota (3750.0s > 3ra mejor 3450.0s)
+        [#275] PATIO -> A348 (Patas para arriba)  ✘ PODA: cota (4650.0s > 3ra mejor 3450.0s)
+        [#276] PATIO -> STARBUCKS  ✘ PODA: ya visitada
+        [#277] PATIO -> OBRA  ✘ PODA: zona prohibida
+      [#278] STARBUCKS -> PATIO (Caminando) t=3000.0s bat=52.00 | oblig 2/2
+        [#279] PATIO -> A348 (Caminando)  ✘ PODA: cota (3900.0s > 3ra mejor 3450.0s)
+        [#280] PATIO -> A348 (Patas para arriba)  ✘ PODA: cota (4800.0s > 3ra mejor 3450.0s)
+        [#281] PATIO -> STARBUCKS  ✘ PODA: ya visitada
+        [#282] PATIO -> OBRA  ✘ PODA: zona prohibida
+    [#283] A613 -> OBRA  ✘ PODA: zona prohibida
+  [#284] A348 -> A613 (Patas para arriba) t=2400.0s bat=93.00 (+2.0 recarga) | oblig 1/2
+    [#285] A613 -> A348  ✘ PODA: vuelta anticipada (faltan 1 obligatorias)
+    [#286] A613 -> PASILLO3 (Saltando) t=2850.0s bat=60.00 | oblig 1/2
+      [#287] PASILLO3 -> A348  ✘ PODA: vuelta anticipada (faltan 1 obligatorias)
+      [#288] PASILLO3 -> A613  ✘ PODA: ya visitada
+      [#289] PASILLO3 -> STARBUCKS (Caminando)  ✘ PODA: cota (cota 4350.0s > 3ra mejor 3450.0s)
+    [#290] A613 -> PASILLO3 (Caminando)  ✘ PODA: cota (cota 3750.0s > 3ra mejor 3450.0s)
+    [#291] A613 -> STARBUCKS (Saltando) t=3150.0s bat=38.00 | oblig 2/2
+      [#292] STARBUCKS -> PASILLO3 (Caminando)  ✘ PODA: cota (cota 4650.0s > 3ra mejor 3450.0s)
+      [#293] STARBUCKS -> A613  ✘ PODA: ya visitada
+      [#294] STARBUCKS -> PATIO (Saltando)  ✘ PODA: cota (cota 3600.0s > 3ra mejor 3450.0s)
+      [#295] STARBUCKS -> PATIO (Caminando)  ✘ PODA: cota (cota 3750.0s > 3ra mejor 3450.0s)
+    [#296] A613 -> STARBUCKS (Caminando)  ✘ PODA: cota (cota 4200.0s > 3ra mejor 3450.0s)
+    [#297] A613 -> OBRA  ✘ PODA: zona prohibida
 
 ============================================================
  ESTADÍSTICAS DE LA EXPLORACIÓN
 ============================================================
- Nodos analizados (generados) : 207
- Nodos expandidos (recursión) : 47
- Soluciones completas halladas: 27
+ Nodos analizados (generados) : 297
+ Nodos expandidos (recursión) : 68
+ Soluciones completas halladas: 33
+ Esperas por lugar cerrado   : 6 (entra 1 s después del cierre)
  Podas por motivo:
-    - zona prohibida    : 28
-    - ya visitada       : 51
-    - vuelta anticipada : 15
-    - batería           : 7
-    - ventana temporal  : 7
+    - zona prohibida    : 41
+    - ya visitada       : 78
+    - vuelta anticipada : 19
+    - batería           : 10
+    - ventana temporal  : 0
     - sin camino        : 0
-    - batería insuficiente: 1
-    - cota              : 24
+    - batería insuficiente: 5
+    - cota              : 43
 
 ============================================================
  OBJETIVO PRINCIPAL: 3 MEJORES RUTAS
@@ -233,32 +324,31 @@ La sangría indica el nivel en el árbol de exploración.
 
 Ruta #1  -  A348 > PATIO > STARBUCKS > A613 > A348
   Modos: A348 -C-> PATIO -S-> STARBUCKS -S-> A613 -C-> A348
-  #   Origen    Destino   Movimiento            Batería   Recarga T. acumulado
-  1   A348      PATIO     Caminando               85.00         -      900.0 s
-  2   PATIO     STARBUCKS Saltando                74.00         -     1050.0 s
-  3   STARBUCKS A613      Saltando                21.00      +2.0     1800.0 s
-  4   A613      A348      Caminando                1.00         -     3000.0 s
+  #   Origen    Destino   Movimiento            Batería   Recarga    Espera T. acumulado
+  1   A348      PATIO     Caminando               85.00         -         -      900.0 s
+  2   PATIO     STARBUCKS Saltando                74.00         -         -     1050.0 s
+  3   STARBUCKS A613      Saltando                21.00      +2.0         -     1800.0 s
+  4   A613      A348      Caminando                1.00         -         -     3000.0 s
   Tiempo total: 3000.0 s (50 min 00 s)
 
-Ruta #2  -  A348 > PASILLO3 > A613 > STARBUCKS > PATIO > A348
+Ruta #2  -  A348 > A613 > STARBUCKS > PATIO > A348
+  Modos: A348 -C-> A613 -S-> STARBUCKS -S-> PATIO -C-> A348
+  #   Origen    Destino   Movimiento            Batería   Recarga    Espera T. acumulado
+  1   A348      A613      Caminando               82.00      +2.0         -     1200.0 s
+  2   A613      STARBUCKS Saltando                27.00         -   151.0 s     2101.0 s
+  3   STARBUCKS PATIO     Saltando                16.00         -         -     2251.0 s
+  4   PATIO     A348      Caminando                1.00         -         -     3151.0 s
+  Tiempo total: 3151.0 s (52 min 31 s)
+
+Ruta #3  -  A348 > PASILLO3 > A613 > STARBUCKS > PATIO > A348
   Modos: A348 -S-> PASILLO3 -S-> A613 -C-> STARBUCKS -C-> PATIO -C-> A348
-  #   Origen    Destino   Movimiento            Batería   Recarga T. acumulado
-  1   A348      PASILLO3  Saltando                78.00         -      300.0 s
-  2   PASILLO3  A613      Saltando                47.00      +2.0      750.0 s
-  3   A613      STARBUCKS Caminando               22.00         -     2250.0 s
-  4   STARBUCKS PATIO     Caminando               17.00         -     2550.0 s
-  5   PATIO     A348      Caminando                2.00         -     3450.0 s
+  #   Origen    Destino   Movimiento            Batería   Recarga    Espera T. acumulado
+  1   A348      PASILLO3  Saltando                78.00         -         -      300.0 s
+  2   PASILLO3  A613      Saltando                47.00      +2.0         -      750.0 s
+  3   A613      STARBUCKS Caminando               22.00         -         -     2250.0 s
+  4   STARBUCKS PATIO     Caminando               17.00         -         -     2550.0 s
+  5   PATIO     A348      Caminando                2.00         -         -     3450.0 s
   Tiempo total: 3450.0 s (57 min 30 s)
 
-Ruta #3  -  A348 > PATIO > STARBUCKS > A613 > PASILLO3 > A348
-  Modos: A348 -C-> PATIO -C-> STARBUCKS -S-> A613 -C-> PASILLO3 -C-> A348
-  #   Origen    Destino   Movimiento            Batería   Recarga T. acumulado
-  1   A348      PATIO     Caminando               85.00         -      900.0 s
-  2   PATIO     STARBUCKS Caminando               80.00         -     1200.0 s
-  3   STARBUCKS A613      Saltando                27.00      +2.0     1950.0 s
-  4   A613      PASILLO3  Caminando               12.00         -     2850.0 s
-  5   PASILLO3  A348      Caminando                2.00         -     3450.0 s
-  Tiempo total: 3450.0 s (57 min 30 s)
-
- Tiempo de ejecución: 36.72 ms
+ Tiempo de ejecución: 52.15 ms
 
