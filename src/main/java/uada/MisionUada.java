@@ -141,8 +141,8 @@ public class MisionUada {
             if (sig.isProhibida()) { podar(nivel, actual, sig, null, "zona prohibida", ""); continue; }
             boolean esCierre = (sig == origen);
             if (esCierre && obligatoriasVisitadas < totalObligatorias) {
-                podar(nivel, actual, sig, null, "vuelta anticipada",
-                        "faltan " + (totalObligatorias - obligatoriasVisitadas) + " obligatorias");
+                podar(nivel, actual, sig, null, "vuelta anticipada", registrando()
+                        ? "faltan " + (totalObligatorias - obligatoriasVisitadas) + " obligatorias" : "");
                 continue;
             }
             if (!esCierre && visitado[sig.getId()]) { podar(nivel, actual, sig, null, "ya visitada", ""); continue; }
@@ -155,21 +155,22 @@ public class MisionUada {
 
                 // Batería: debe quedar > 0, salvo al llegar al destino final (>= 0)
                 if (esCierre ? b2 < 0 : b2 <= 0) {
-                    podar(nivel, actual, sig, modo, "batería", String.format(Locale.ROOT, "quedaría %.2f", b2));
+                    podar(nivel, actual, sig, modo, "batería",
+                            registrando() ? String.format(Locale.ROOT, "quedaría %.2f", b2) : "");
                     continue;
                 }
                 double espera = 0;
                 if (sig.cerradaEn(t2)) {
                     if (!permitirEspera) {
-                        podar(nivel, actual, sig, modo, "ventana temporal",
-                                String.format(Locale.ROOT, "llega en t=%.1fs y está cerrada en %s", t2, cierresTexto(sig)));
+                        podar(nivel, actual, sig, modo, "ventana temporal", registrando()
+                                ? String.format(Locale.ROOT, "llega en t=%.1fs y está cerrada en %s", t2, cierresTexto(sig)) : "");
                         continue;
                     }
                     // espera en la puerta lo mínimo para entrar: suma tiempo, no consume batería
                     double entrada = sig.primerInstanteAbierto(t2, MARGEN_ESPERA);
                     if (Double.isInfinite(entrada)) {
-                        podar(nivel, actual, sig, modo, "ventana temporal",
-                                String.format(Locale.ROOT, "llega en t=%.1fs y está cerrada sin reapertura", t2));
+                        podar(nivel, actual, sig, modo, "ventana temporal", registrando()
+                                ? String.format(Locale.ROOT, "llega en t=%.1fs y está cerrada sin reapertura", t2) : "");
                         continue;
                     }
                     espera = entrada - t2;
@@ -190,45 +191,47 @@ public class MisionUada {
                         }
                     }
                     if (Double.isInfinite(faltaT)) {
-                        podar(nivel, actual, sig, modo, "sin camino",
-                                "a un lugar que falta (obligatorio pendiente o " + origen + ") no entra ninguna conexión");
+                        podar(nivel, actual, sig, modo, "sin camino", registrando()
+                                ? "a un lugar que falta (obligatorio pendiente o " + origen + ") no entra ninguna conexión" : "");
                         continue;
                     }
                     double bateriaPosible = b3 + recargasPendientes - sig.recarga();
                     if (bateriaPosible < faltaB) {
-                        podar(nivel, actual, sig, modo, "batería insuficiente",
-                                String.format(Locale.ROOT, "necesita >= %.2f y como mucho tendría %.2f", faltaB, bateriaPosible));
+                        podar(nivel, actual, sig, modo, "batería insuficiente", registrando()
+                                ? String.format(Locale.ROOT, "necesita >= %.2f y como mucho tendría %.2f", faltaB, bateriaPosible) : "");
                         continue;
                     }
                     // con '>' (y no '>=') no se pierden rutas que empatan en tiempo y ganan por batería
                     if (mejores.size() == TOP && t2 + faltaT > mejores.get(TOP - 1).tiempoTotal + EPS) {
-                        podar(nivel, actual, sig, modo, "cota", String.format(Locale.ROOT, "cota %.1fs > 3ra mejor %.1fs",
-                                t2 + faltaT, mejores.get(TOP - 1).tiempoTotal));
+                        podar(nivel, actual, sig, modo, "cota", registrando() ? String.format(Locale.ROOT,
+                                "cota %.1fs > 3ra mejor %.1fs", t2 + faltaT, mejores.get(TOP - 1).tiempoTotal) : "");
                         continue;
                     }
                 } else if (cotas && mejores.size() == TOP && t2 > mejores.get(TOP - 1).tiempoTotal + EPS) {
-                    podar(nivel, actual, sig, modo, "cota", String.format(Locale.ROOT, "%.1fs > 3ra mejor %.1fs",
-                            t2, mejores.get(TOP - 1).tiempoTotal));
+                    podar(nivel, actual, sig, modo, "cota", registrando() ? String.format(Locale.ROOT,
+                            "%.1fs > 3ra mejor %.1fs", t2, mejores.get(TOP - 1).tiempoTotal) : "");
                     continue;
                 }
 
                 // --- hacer ---
                 camino.addLast(new Movimiento(actual, sig, modo, b3, recarga, espera, t2));
                 if (espera > 0) esperas++;
-                String textoEspera = espera > 0
+                String textoEspera = espera > 0 && registrando()
                         ? String.format(Locale.ROOT, " (esperó %.1fs: cerrada en %s)", espera, cierresTexto(sig)) : "";
 
                 if (esCierre) {
                     solucionesEncontradas++;
                     int pos = registrarSolucion(new Ruta(new ArrayList<>(camino)));
-                    escribir(nivel, String.format(Locale.ROOT, "[#%d] %s -> %s (%s) t=%.1fs bat=%.2f%s  ★ SOLUCIÓN %s",
+                    escribir(nivel, !registrando() ? "" : String.format(Locale.ROOT,
+                            "[#%d] %s -> %s (%s) t=%.1fs bat=%.2f%s  ★ SOLUCIÓN %s",
                             nodosAnalizados, actual, sig, modo.getNombre(), t2, b3, textoEspera,
                             pos > 0 ? "-> entra al top-3 en posición " + pos : "(no mejora el top-3)"));
                 } else {
                     visitado[sig.getId()] = true;
                     recargasPendientes -= sig.recarga();
                     if (sig.isObligatoria()) obligatoriasVisitadas++;
-                    escribir(nivel, String.format(Locale.ROOT, "[#%d] %s -> %s (%s) t=%.1fs bat=%.2f%s%s | oblig %d/%d",
+                    escribir(nivel, !registrando() ? "" : String.format(Locale.ROOT,
+                            "[#%d] %s -> %s (%s) t=%.1fs bat=%.2f%s%s | oblig %d/%d",
                             nodosAnalizados, actual, sig, modo.getNombre(), t2, b3,
                             recarga > 0 ? String.format(Locale.ROOT, " (+%.1f recarga)", recarga) : "", textoEspera,
                             obligatoriasVisitadas, totalObligatorias));
@@ -323,9 +326,17 @@ public class MisionUada {
     private void podar(int nivel, Estacion a, Estacion b, Modo m, String motivo, String detalle) {
         podas.merge(motivo, 1L, Long::sum);
         if (m == null) nodosAnalizados++;   // la poda sin modo también es un nodo analizado
-        escribir(nivel, String.format(Locale.ROOT, "[#%d] %s -> %s%s  ✘ PODA: %s%s", nodosAnalizados, a, b,
-                m == null ? "" : " (" + m.getNombre() + ")", motivo,
+        escribir(nivel, !registrando() ? "" : String.format(Locale.ROOT, "[#%d] %s -> %s%s  ✘ PODA: %s%s",
+                nodosAnalizados, a, b, m == null ? "" : " (" + m.getNombre() + ")", motivo,
                 detalle.isEmpty() ? "" : " (" + detalle + ")"));
+    }
+
+    /**
+     * true si la próxima línea del log se va a escribir. Sin log (mediciones) o con el log ya truncado
+     * no se arma el texto: formatear cada nodo cuesta más que analizarlo.
+     */
+    private boolean registrando() {
+        return log != null && lineasLog < maxLineasLog;
     }
 
     private static String cierresTexto(Estacion e) {
