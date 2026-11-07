@@ -58,3 +58,4 @@ Los demás pesan cientos de MB, así que no se suben: se regeneran corriendo el 
 ## Documentación
 - [`docs/INFORME.md`](docs/INFORME.md): informe del TP (estrategia, pseudocódigo, complejidad, resultados, comparativo, conclusiones).
 - [`docs/PUNTEO.md`](docs/PUNTEO.md): resumen y explicación para el grupo, con preguntas probables de la defensa.
+- [`docs/GUIA_ESTUDIO.md`](docs/GUIA_ESTUDIO.md): guía para la defensa, con 18 modificaciones en vivo ya probadas.
