@@ -265,6 +265,34 @@ Y en el `.txt`, agregar `R` a las conexiones (`ARISTA;A;B;30;CSR`). Resultado co
 
 ---
 
+## 4 bis. Decisiones tomadas y su justificación
+
+La cátedra avisó que pueden preguntar "de cualquier punto de la consigna, incluyendo justificación de todas las decisiones tomadas", y que van a pedir pequeñas modificaciones y probar si sigue andando.
+
+| Decisión | Justificación | Origen | Si lo quieren distinto, se cambia en… |
+|---|---|---|---|
+| Grafo dirigido (ARISTA origen→destino) | Los mapas ya traen las direcciones | Confirmado por la cátedra | argumento `nodirigido` |
+| "Aula 633" = Aula 348 | Error de tipeo del enunciado | Confirmado por la cátedra | — |
+| Solo backtracking + branch & bound (sin Floyd) | Pedido de la consigna | Confirmado por la cátedra | — |
+| Batería con tope 100 | Si no, recargar no tendría límite | Confirmado | `MisionUada` l. 35 |
+| Uada puede esperar si un lugar está cerrado | La espera suma tiempo y no gasta batería | Confirmado | `Main` l. 23 / `sinespera` |
+| Entra 1 s después del cierre | El intervalo es inclusivo `[desde, hasta]` (comentario del archivo de mapa) | Comentario del archivo | `MisionUada` l. 38 + `Ventana` l. 19 (mod 9) |
+| Batería > 0 en el camino, ≥ 0 al llegar a 348 | Con 0 en el medio no puede seguir; al llegar, la misión ya terminó | Interpretación nuestra | `MisionUada` l. 157 |
+| 348 no recarga al volver | Es el final, recargar no cambia nada | Interpretación nuestra | `MisionUada` l. 179 |
+| Top-3 = secuencias de lugares distintas | Si no, salía 3 veces la misma ruta cambiando un modo | Decisión del grupo | `MisionUada` l. 259 (mod 12) |
+| Desempate: más batería y después menos pasos | Con el mismo tiempo, mejor la que deja más margen y es más simple | Interpretación nuestra | `comparar` l. 277 (mod 15) |
+| Cota = entrada más barata de cada pendiente | Optimista (nunca sobreestima), O(n+m), sin Floyd | Diseño nuestro | `calcularEntradasMinimas` l. 305 |
+| Fase 2 sin cotas si no hay solución | La cota puede cortar ramas útiles para la ruta truncada | Diseño nuestro | `resolver` l. 108 |
+| Objetivo secundario: más obligatorias y después menor distancia recta a 348 | Mide "más cerca del objetivo" | Interpretación nuestra | `actualizarMejorParcial` l. 287 |
+| Modos en orden saltando → caminando → patas | Llena antes el top-3 y la cota poda más; no cambia el resultado | Diseño nuestro | `Modo` l. 11-13 (mod 17) |
+| Mapa leído de archivo | Los mapas los dan el mismo día; el código no depende de los datos | Necesidad de la consigna | — |
+
+Fórmula para las interpretaciones: *"lo interpretamos así porque…; si la cátedra lo quiere distinto, se cambia en tal línea"*, y si lo piden, se hace en el momento.
+
+**"Probaremos si sigue andando":** después de cada cambio, siempre el ciclo completo: `javac` → `chico` → `chico sincota` (mismo top-3) → `mapa_grande`. Tener probado `mvn test` en la Mac antes de la defensa.
+
+---
+
 ## 5. Autoevaluación (responder en voz alta, sin mirar)
 
 <details><summary>1. ¿Qué es un nodo del árbol de búsqueda en este TP?</summary>
