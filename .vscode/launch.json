@@ -1,0 +1,119 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Elegir mapa…",
+      "request": "launch",
+      "mainClass": "uada.Main",
+      "projectName": "mision-uada",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "args": [
+        "${input:mapa}"
+      ]
+    },
+    {
+      "type": "java",
+      "name": "Chico",
+      "request": "launch",
+      "mainClass": "uada.Main",
+      "projectName": "mision-uada",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "args": [
+        "chico"
+      ]
+    },
+    {
+      "type": "java",
+      "name": "Chico sin cota",
+      "request": "launch",
+      "mainClass": "uada.Main",
+      "projectName": "mision-uada",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "args": [
+        "chico",
+        "sincota"
+      ]
+    },
+    {
+      "type": "java",
+      "name": "Mapa grande",
+      "request": "launch",
+      "mainClass": "uada.Main",
+      "projectName": "mision-uada",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "args": [
+        "mapas/mapa_grande.txt"
+      ]
+    },
+    {
+      "type": "java",
+      "name": "Mapa grande sin espera",
+      "request": "launch",
+      "mainClass": "uada.Main",
+      "projectName": "mision-uada",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "args": [
+        "mapas/mapa_grande.txt",
+        "sinespera"
+      ]
+    },
+    {
+      "type": "java",
+      "name": "Mapa grande sin cota (unos segundos)",
+      "request": "launch",
+      "mainClass": "uada.Main",
+      "projectName": "mision-uada",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "args": [
+        "mapas/mapa_grande.txt",
+        "sincota"
+      ]
+    },
+    {
+      "type": "java",
+      "name": "Mapa grande sin solución",
+      "request": "launch",
+      "mainClass": "uada.Main",
+      "projectName": "mision-uada",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "args": [
+        "mapas/mapa_grande_sin_solucion.txt"
+      ]
+    },
+    {
+      "type": "java",
+      "name": "Base (mapa en código)",
+      "request": "launch",
+      "mainClass": "uada.Main",
+      "projectName": "mision-uada",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "args": [
+        "base"
+      ]
+    }
+  ],
+  "inputs": [
+    {
+      "id": "mapa",
+      "type": "pickString",
+      "description": "¿Qué mapa querés correr?",
+      "options": [
+        "chico",
+        "base",
+        "imposible",
+        "mapas/mapa_grande.txt",
+        "mapas/mapa_grande_sin_solucion.txt"
+      ],
+      "default": "chico"
+    }
+  ]
+}
