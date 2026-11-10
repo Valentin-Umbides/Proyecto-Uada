@@ -1,0 +1,59 @@
+# Mapa de práctica SIN SOLUCIÓN (no hay forma de volver a Aula 348): 18 estaciones, 5 obligatorias, 2 zonas prohibidas, 4 ventanas de tiempo; conexiones dirigidas
+# Mismo formato que mapa_grande.txt. No es el mapa de la cátedra: sirve para ensayar con un mapa nuevo.
+# LUGAR;nombre;aula(0 si no);x;y;obligatorio;prohibido
+LUGAR;Aula 348;348;0;0;0;0
+LUGAR;Hall Central;0;30;0;0;0
+LUGAR;Ascensor;0;60;0;0;0
+LUGAR;Aula 215;215;30;-40;1;0
+LUGAR;Aula 520;520;0;40;0;0
+LUGAR;Fotocopiadora;0;30;40;1;0
+LUGAR;Cafeteria;0;60;40;0;0
+LUGAR;Sala Profesores;0;90;40;1;0
+LUGAR;Terraza;0;90;0;0;0
+LUGAR;Aula 731;731;120;0;0;0
+LUGAR;Gimnasio;0;120;40;1;0
+LUGAR;Aula 104;104;60;-40;0;0
+LUGAR;Laboratorio 2;0;90;-40;0;0
+LUGAR;Kiosco;0;120;-40;0;0
+LUGAR;Aula 636;636;150;0;1;0
+LUGAR;Pasillo P5;0;0;-40;0;0
+LUGAR;Banos;0;45;20;0;1
+LUGAR;Deposito;0;105;-20;0;1
+# ARISTA;origen;destino;segundos;modos (arista dirigida: origen -> destino; C=caminando, S=saltando, P=patas para arriba)
+ARISTA;Aula 348;Hall Central;35;CSP
+ARISTA;Aula 348;Aula 520;50;CS
+ARISTA;Aula 348;Pasillo P5;40;CP
+ARISTA;Hall Central;Ascensor;40;CSP
+ARISTA;Hall Central;Fotocopiadora;45;CS
+ARISTA;Hall Central;Banos;20;CSP
+ARISTA;Hall Central;Aula 215;50;CS
+ARISTA;Aula 520;Fotocopiadora;35;CSP
+ARISTA;Fotocopiadora;Cafeteria;40;CS
+ARISTA;Fotocopiadora;Hall Central;45;CS
+ARISTA;Cafeteria;Sala Profesores;45;CSP
+ARISTA;Cafeteria;Ascensor;40;CP
+ARISTA;Ascensor;Terraza;50;CS
+ARISTA;Ascensor;Aula 104;45;CSP
+ARISTA;Ascensor;Banos;25;CS
+ARISTA;Sala Profesores;Gimnasio;40;CS
+ARISTA;Sala Profesores;Terraza;55;CP
+ARISTA;Terraza;Aula 731;40;CSP
+ARISTA;Terraza;Deposito;30;CSP
+ARISTA;Gimnasio;Aula 731;45;CS
+ARISTA;Gimnasio;Aula 636;70;CP
+ARISTA;Aula 731;Aula 636;40;CS
+ARISTA;Aula 731;Kiosco;55;CSP
+ARISTA;Aula 636;Kiosco;50;CSP
+ARISTA;Aula 636;Laboratorio 2;65;CS
+ARISTA;Kiosco;Laboratorio 2;40;CS
+ARISTA;Kiosco;Deposito;25;CSP
+ARISTA;Laboratorio 2;Aula 104;40;CSP
+ARISTA;Laboratorio 2;Aula 215;60;CP
+ARISTA;Aula 104;Aula 215;40;CS
+ARISTA;Aula 215;Pasillo P5;45;CSP
+# VENTANA;lugar;desde;hasta (cerrado en [desde,hasta], en segundos)
+VENTANA;Fotocopiadora;30;50
+VENTANA;Sala Profesores;90;110
+VENTANA;Aula 636;150;175
+VENTANA;Aula 215;230;260
+INICIO;Aula 348

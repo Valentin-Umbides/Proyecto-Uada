@@ -99,6 +99,43 @@
       "args": [
         "base"
       ]
+    },
+    {
+      "type": "java",
+      "name": "Mapa práctica",
+      "request": "launch",
+      "mainClass": "uada.Main",
+      "projectName": "mision-uada",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "args": [
+        "mapas/mapa_practica.txt"
+      ]
+    },
+    {
+      "type": "java",
+      "name": "Mapa práctica sin cota",
+      "request": "launch",
+      "mainClass": "uada.Main",
+      "projectName": "mision-uada",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "args": [
+        "mapas/mapa_practica.txt",
+        "sincota"
+      ]
+    },
+    {
+      "type": "java",
+      "name": "Mapa práctica sin solución",
+      "request": "launch",
+      "mainClass": "uada.Main",
+      "projectName": "mision-uada",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "args": [
+        "mapas/mapa_practica_sin_solucion.txt"
+      ]
     }
   ],
   "inputs": [
@@ -111,7 +148,9 @@
         "base",
         "imposible",
         "mapas/mapa_grande.txt",
-        "mapas/mapa_grande_sin_solucion.txt"
+        "mapas/mapa_grande_sin_solucion.txt",
+        "mapas/mapa_practica.txt",
+        "mapas/mapa_practica_sin_solucion.txt"
       ],
       "default": "chico"
     }
