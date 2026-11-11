@@ -15,6 +15,44 @@
     },
     {
       "type": "java",
+      "name": "Escribir ruta del mapa…",
+      "request": "launch",
+      "mainClass": "uada.Main",
+      "projectName": "mision-uada",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "args": [
+        "${input:rutaMapa}"
+      ]
+    },
+    {
+      "type": "java",
+      "name": "Escribir ruta del mapa… (sin cota)",
+      "request": "launch",
+      "mainClass": "uada.Main",
+      "projectName": "mision-uada",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "args": [
+        "${input:rutaMapa}",
+        "sincota"
+      ]
+    },
+    {
+      "type": "java",
+      "name": "Escribir ruta del mapa… (sin espera)",
+      "request": "launch",
+      "mainClass": "uada.Main",
+      "projectName": "mision-uada",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "args": [
+        "${input:rutaMapa}",
+        "sinespera"
+      ]
+    },
+    {
+      "type": "java",
       "name": "Chico",
       "request": "launch",
       "mainClass": "uada.Main",
@@ -153,6 +191,12 @@
         "mapas/mapa_practica_sin_solucion.txt"
       ],
       "default": "chico"
+    },
+    {
+      "id": "rutaMapa",
+      "type": "promptString",
+      "description": "Ruta del mapa (ej: mapas/mapa_profe.txt)",
+      "default": "mapas/"
     }
   ]
 }
